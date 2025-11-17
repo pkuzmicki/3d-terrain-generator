@@ -12,12 +12,12 @@ class Shader {
     public:
     unsigned ID;
 
-    Shader(const char* vertexPath, const char* fragmentPath);
+    // Shader(const char* vertexPath, const char* fragmentPath);
 
-    void use();
-    void setBool(const std::string &name, bool value) const;
-    void setInt(const std::string &name, bool value) const;
-    void setFloat(const std::string &name, bool value) const;
+    // void use();
+    // void setBool(const std::string &name, bool value) const;
+    // void setInt(const std::string &name, bool value) const;
+    // void setFloat(const std::string &name, bool value) const;
 
     Shader(const char* vertexPath, const char* fragmentPath) {
         std::string vertexCode;
@@ -40,10 +40,11 @@ class Shader {
             fShaderFile.close();
 
             vertexCode = vShaderStream.str();
-            fragmentCode = vShaderStream.str();
+            fragmentCode = fShaderStream.str();
         } catch(std::ifstream::failure e) {
             std::cout<<"ERROR::SHADER::FILE_NOT_READ_SUCCESFULLY"<<"\n";
         }
+
         const char* vShaderCode = vertexCode.c_str();
         const char* fShaderCode = fragmentCode.c_str();
 
@@ -101,6 +102,10 @@ class Shader {
     void setFloat(const std::string &name, float value) const { 
         glUniform1f(glGetUniformLocation(ID, name.c_str()), value); 
     } 
+
+    void setMat4(const std::string &name, glm::mat4 value) const {
+        glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+    }
 };
 
 #endif
