@@ -8,13 +8,18 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+// #include "imgui.h"
+// #include "imgui_impl_glfw.h"
+// #include "imgui_impl_opengl3.h"
+#include "FastNoiseLite.h"
 
 #include <iostream>
 #include <cmath>
 #include <fstream>
+#include <vector>
+#include <chrono>
+
+#include "valuenoise.h"
 
 enum State {
     EditingState,
@@ -32,7 +37,7 @@ float pitch = 0.0f;
 bool firstMouse = true;
 float fov = 45.0f;
 
-glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
+glm::vec3 cameraPos   = glm::vec3(0.0f, 70.0f,  3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
 
@@ -88,7 +93,7 @@ void processInput(GLFWwindow *window) {
 
     float cameraSpeed = 2.5f * deltaTime;
     if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-        cameraSpeed *= 5;
+        cameraSpeed *= 25;
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         cameraPos += cameraSpeed * cameraFront;
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
@@ -124,10 +129,11 @@ int main() {
 
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    if (state == State::FreeCameraState)
+    if (state == State::FreeCameraState) {
         glfwSetCursorPosCallback(window, mouse_callback);  
-    glfwSetScrollCallback(window, scroll_callback); 
-
+        glfwSetScrollCallback(window, scroll_callback); 
+    }
+        
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
@@ -138,16 +144,111 @@ int main() {
 
     Shader ourShader("shaders/shader.vs", "shaders/shader.fs");
 
-    // Setup Dear ImGui context
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    const int POINTCOUNT = 31;
+    int g_nUtahDistribution[POINTCOUNT] = {
+    1, 4, 6, 7, 7, 8, 10, 11, 14, 30, 37, 30, 19, 11, 8, 5, 5, 4, 3, 3, 3, 3, 3, 3, 5, 4, 4, 3, 2, 2, 1
+    };
 
-    // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
-    ImGui_ImplOpenGL3_Init();
+    const int CELLSIZE = 1000;
+    const int NUMOCTAVES = 8;
+    const int ALTITUDE = 100;
+
+    ValueNoiseGeneration v;
+    v.Initialize();
+    v.SetValueTable(g_nUtahDistribution, POINTCOUNT);
+
+    int seed = std::time(0);
+    std::srand(seed);
+    std::cout<<"\nPseudorandom seed = "<<seed<<"\n";
+
+    float x = (float)rand();
+    float z = (float)rand();
+
+    std::vector<float> heights(CELLSIZE*CELLSIZE);
+    //int heights[CELLSIZE*CELLSIZE];
+
+    for (int i = 0; i < CELLSIZE; i++) {
+        for (int j = 0; j < CELLSIZE; j++) {
+            heights[i * CELLSIZE + j] = (ALTITUDE * v.GetHeight(x + i/256.0f, z + j/256.0f, 0.5f, 2.0f, NUMOCTAVES));
+        }
+    }
+
+    //BIBLIOTEKA
+
+    FastNoiseLite noise;
+    //noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+    noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
+
+    std::vector<float> simplex(CELLSIZE*CELLSIZE);
+    int index = 0;
+
+    for (int i = 0; i < CELLSIZE; i++) {
+        for (int j = 0; j < CELLSIZE; j++) {
+            simplex[index++] = noise.GetNoise((float)i, (float)j) * ALTITUDE; 
+        }
+    }
+
+    std::vector<float> vertices1(CELLSIZE * CELLSIZE * 3);
+
+    int i1 = 0;
+
+    for (int z = 0; z < CELLSIZE; z++) {
+        for (int x = 0; x < CELLSIZE; x++) {
+            float x1 = 0.2f * x;
+            float y1 = heights[z * CELLSIZE + x];
+            //float y1 = simplex[z * CELLSIZE + x];
+            float z1 = 0.2f * z;
+
+            vertices1[i1++] = x1;
+            vertices1[i1++] = y1;
+            vertices1[i1++] = z1;
+        }
+    }
+
+
+    // for (int i = 0; i < CELLSIZE * CELLSIZE * 3; i+=3) {
+    //     //std::cout<<vertices1[i]<<" "<<vertices1[i+1]<<" "<<vertices1[i+2]<<"\n";
+    //     std::cout<<vertices1[i+1]<<"\n";
+    // }
+
+    // SUBSTYTUT ZROB INNE
+    std::vector<unsigned int> indices1((CELLSIZE - 1) * (CELLSIZE - 1) * 6);
+    //unsigned int indices1[(CELLSIZE - 1) * (CELLSIZE - 1) * 6];
+
+    int idx = 0;
+
+    for (int z = 0; z < CELLSIZE - 1; z++) {
+        for (int x = 0; x < CELLSIZE - 1; x++) {
+            int topLeft     =  z      * CELLSIZE + x;
+            int topRight    =  z      * CELLSIZE + x + 1;
+            int bottomLeft  = (z + 1) * CELLSIZE + x;
+            int bottomRight = (z + 1) * CELLSIZE + x + 1;
+
+            // trójkąt 1
+            indices1[idx++] = topLeft;
+            indices1[idx++] = bottomLeft;
+            indices1[idx++] = topRight;
+
+            // trójkąt 2
+            indices1[idx++] = topRight;
+            indices1[idx++] = bottomLeft;
+            indices1[idx++] = bottomRight;
+        }
+    }
+
+    
+
+
+    // // Setup Dear ImGui context
+    // IMGUI_CHECKVERSION();
+    // ImGui::CreateContext();
+    // ImGuiIO& io = ImGui::GetIO();
+    // io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    // // Setup Platform/Renderer backends
+    // ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+    // ImGui_ImplOpenGL3_Init();
 
     float vertices[] = {
         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -218,25 +319,43 @@ int main() {
 
     glBindVertexArray(VAO);
 
+    //KOSTKI
+    // glBindBuffer(GL_ARRAY_BUFFER, VBO); 
+    // glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); 
+
+    //TEREN
     glBindBuffer(GL_ARRAY_BUFFER, VBO); 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices1.size(), &vertices1[0], GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW); 
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices1.size(), &indices1[0], GL_STATIC_DRAW); 
 
     
     //vertex attributes pointers
     //position
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    //KOSTKI
+    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    // glEnableVertexAttribArray(0);
+
+    //TEREN
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
     //color
     // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3* sizeof(float)));
     // glEnableVertexAttribArray(1);
+
+    //TEREN
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(3* sizeof(float)));
+    glEnableVertexAttribArray(1);
     //texture
     // glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     // glEnableVertexAttribArray(2); 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3* sizeof(float)));
-    glEnableVertexAttribArray(1);
+    // glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3* sizeof(float)));
+    // glEnableVertexAttribArray(1);
 
     glEnable(GL_DEPTH_TEST);  
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -256,7 +375,7 @@ int main() {
     // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     int width, height, nrChannels;
-    unsigned char *data = stbi_load("obiecuje.jpg", &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load("res/obiecuje.jpg", &width, &height, &nrChannels, 0);
     
     if (data) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -279,7 +398,7 @@ int main() {
     // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    data = stbi_load("divine.png", &width, &height, &nrChannels, 0);
+    data = stbi_load("res/divine.png", &width, &height, &nrChannels, 0);
 
     if (data) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
@@ -292,8 +411,9 @@ int main() {
 
     ourShader.use();
     //glUniform1i(glGetUniformLocation(ourShader.ID, "texture1"), 0);
-    ourShader.setInt("texture1", 0);
-    ourShader.setInt("texture2", 1);
+    // ourShader.setInt("texture1", 0);
+    // ourShader.setInt("texture2", 1);
+
 
 
 
@@ -312,10 +432,10 @@ int main() {
         // (Your code calls glfwPollEvents())
         // ...
         // Start the Dear ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-        ImGui::ShowDemoWindow(); // Show demo window! :)
+        // ImGui_ImplOpenGL3_NewFrame();
+        // ImGui_ImplGlfw_NewFrame();
+        // ImGui::NewFrame();
+        // ImGui::ShowDemoWindow(); // Show demo window! :)
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -332,22 +452,27 @@ int main() {
         float camZ = cos(glfwGetTime()) * radius;
         glm::mat4 view;
         //view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)); 
-        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+        if (state == State::FreeCameraState)
+            view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
         
-        for(unsigned int i = 0; i < 10; i++){
-            glm::mat4 model = glm::mat4(1.0f);
-            model = glm::translate(model, cubePositions[i]);
-            float angle = 20.0f * i; 
-            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+        // for(unsigned int i = 0; i < 10; i++){
+        //     glm::mat4 model = glm::mat4(1.0f);
+        //     model = glm::translate(model, cubePositions[i]);
+        //     float angle = 20.0f * i; 
+        //     model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 
-            ourShader.setMat4("model", model);
+        //     ourShader.setMat4("model", model);
 
-            glDrawArrays(GL_TRIANGLES, 0, 36);
-        }
+        //     glDrawArrays(GL_TRIANGLES, 0, 36);
+        // }
+
+        glm::mat4 model = glm::mat4(1.0f);
+        ourShader.setMat4("model", model);
+        //glDrawArrays(GL_TRIANGLES, 0, 72);
 
         glm::mat4 projection;
-        projection = glm::perspective(glm::radians(fov), 800.0f / 600.0f, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(fov), 800.0f / 600.0f, 0.1f, 1000.0f);
 
         //unsigned int modelLoc = glGetUniformLocation(ourShader.ID, "model");
         unsigned int viewLoc = glGetUniformLocation(ourShader.ID, "view");
@@ -361,7 +486,9 @@ int main() {
 
         // glBindVertexArray(VAO);
         // glDrawArrays(GL_TRIANGLES, 0, 3);
-
+        
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glDrawElements(GL_TRIANGLES, (CELLSIZE-1) * (CELLSIZE-1) * 6, GL_UNSIGNED_INT, 0);
         
         // glm::mat4 trans = glm::mat4(1.0f);
         // trans = glm::rotate(trans, -(float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
@@ -369,9 +496,9 @@ int main() {
         // unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
         // glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
-        ImGui::Text("Hello, world %d", 123);
-        if (ImGui::Button("Save"))
-            std::cout<<"save\n";
+        // ImGui::Text("Hello, world %d", 123);
+        // if (ImGui::Button("Save"))
+        //     std::cout<<"save\n";
         // ImGui::InputText("string", buf, IM_ARRAYSIZE(buf));
         // ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
 
@@ -382,17 +509,17 @@ int main() {
 
         // Rendering
         // (Your code clears your framebuffer, renders your other stuff etc.)
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        // ImGui::Render();
+        // ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         // (Your code calls glfwSwapBuffers() etc.)
 
         glfwPollEvents();    
         glfwSwapBuffers(window);
     }
 
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+    // ImGui_ImplOpenGL3_Shutdown();
+    // ImGui_ImplGlfw_Shutdown();
+    // ImGui::DestroyContext();
 
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
