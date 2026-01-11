@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/Boryss/Desktop/Gardens3D/build/cmake_install.cmake",
+		"C:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/cmake_install.cmake",
+		"C:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

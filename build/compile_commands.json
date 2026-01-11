@@ -1,0 +1,236 @@
+[
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\external\\glad\\src\\glad.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glad\\src\\glad.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glad\\src\\glad.c",
+  "output": "CMakeFiles\\gardens.dir\\external\\glad\\src\\glad.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\external\\imgui\\imgui.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui.cpp",
+  "output": "CMakeFiles\\gardens.dir\\external\\imgui\\imgui.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\external\\imgui\\imgui_impl_opengl3.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_impl_opengl3.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_impl_opengl3.cpp",
+  "output": "CMakeFiles\\gardens.dir\\external\\imgui\\imgui_impl_opengl3.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\external\\imgui\\imgui_impl_glfw.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_impl_glfw.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_impl_glfw.cpp",
+  "output": "CMakeFiles\\gardens.dir\\external\\imgui\\imgui_impl_glfw.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\external\\imgui\\imgui_draw.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_draw.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_draw.cpp",
+  "output": "CMakeFiles\\gardens.dir\\external\\imgui\\imgui_draw.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\external\\imgui\\imgui_tables.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_tables.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_tables.cpp",
+  "output": "CMakeFiles\\gardens.dir\\external\\imgui\\imgui_tables.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\external\\imgui\\imgui_widgets.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_widgets.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_widgets.cpp",
+  "output": "CMakeFiles\\gardens.dir\\external\\imgui\\imgui_widgets.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\external\\imgui\\imgui_demo.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_demo.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\imgui\\imgui_demo.cpp",
+  "output": "CMakeFiles\\gardens.dir\\external\\imgui\\imgui_demo.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\main.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\main.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\main.cpp",
+  "output": "CMakeFiles\\gardens.dir\\src\\main.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\core\\app_panel.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\core\\app_panel.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\core\\app_panel.cpp",
+  "output": "CMakeFiles\\gardens.dir\\src\\core\\app_panel.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\core\\input.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\core\\input.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\core\\input.cpp",
+  "output": "CMakeFiles\\gardens.dir\\src\\core\\input.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\render\\renderer.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\render\\renderer.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\render\\renderer.cpp",
+  "output": "CMakeFiles\\gardens.dir\\src\\render\\renderer.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\render\\shader.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\render\\shader.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\render\\shader.cpp",
+  "output": "CMakeFiles\\gardens.dir\\src\\render\\shader.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\render\\camera.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\render\\camera.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\render\\camera.cpp",
+  "output": "CMakeFiles\\gardens.dir\\src\\render\\camera.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\render\\mesh.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\render\\mesh.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\render\\mesh.cpp",
+  "output": "CMakeFiles\\gardens.dir\\src\\render\\mesh.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\scene\\scene.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\scene\\scene.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\scene\\scene.cpp",
+  "output": "CMakeFiles\\gardens.dir\\src\\scene\\scene.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\scene\\terrain.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\scene\\terrain.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\scene\\terrain.cpp",
+  "output": "CMakeFiles\\gardens.dir\\src\\scene\\terrain.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\scene\\interface.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\scene\\interface.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\scene\\interface.cpp",
+  "output": "CMakeFiles\\gardens.dir\\src\\scene\\interface.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\context.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\context.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\context.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\context.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\init.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\init.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\init.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\init.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\input.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\input.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\input.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\input.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\monitor.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\monitor.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\monitor.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\monitor.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\platform.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\platform.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\platform.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\platform.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\vulkan.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\vulkan.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\vulkan.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\vulkan.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\window.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\window.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\window.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\window.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\egl_context.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\egl_context.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\egl_context.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\egl_context.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\osmesa_context.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\osmesa_context.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\osmesa_context.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\osmesa_context.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\null_init.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\null_init.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\null_init.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\null_init.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\null_monitor.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\null_monitor.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\null_monitor.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\null_monitor.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\null_window.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\null_window.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\null_window.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\null_window.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\null_joystick.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\null_joystick.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\null_joystick.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\null_joystick.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_module.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_module.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_module.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_module.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_time.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_time.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_time.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_time.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_thread.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_thread.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_thread.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_thread.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_init.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_init.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_init.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_init.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_joystick.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_joystick.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_joystick.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_joystick.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_monitor.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_monitor.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_monitor.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_monitor.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_window.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_window.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\win32_window.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\win32_window.c.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\gcc.exe -DUNICODE -D_GLFW_WIN32 -D_UNICODE -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/src -IC:/Users/Boryss/Desktop/Gardens3D/build/external/glfw/src -g -std=c99 -Wall -o external\\glfw\\src\\CMakeFiles\\glfw.dir\\wgl_context.c.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\wgl_context.c",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\external\\glfw\\src\\wgl_context.c",
+  "output": "external\\glfw\\src\\CMakeFiles\\glfw.dir\\wgl_context.c.obj"
+}
+]
