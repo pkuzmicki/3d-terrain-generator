@@ -1,4 +1,5 @@
-#include <glad/glad.h>
+//#include <glad/glad.h>
+#include "core/app_panel.h"
 #include "render/mesh.h"
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures) {

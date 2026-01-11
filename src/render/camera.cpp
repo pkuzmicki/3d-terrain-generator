@@ -1,9 +1,8 @@
-#include "camera.h"
-#include "core/app_panel.h"
-
-#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "camera.h"
+#include "core/app_panel.h"
 
 void Camera::updateCameraVectors() {
     if (mode == SPECTATOR) {
@@ -71,7 +70,7 @@ void Camera::process_keyboard_input(Camera_Movement direction, float deltaTime) 
     
 }
 
-void Camera::process_mouse_input(float xOffset, float yOffset, GLboolean constrain_pitch) {
+void Camera::process_mouse_input(float xOffset, float yOffset, bool constrain_pitch) {
     xOffset *= mouse_sensitivity;
     yOffset *= mouse_sensitivity;
 

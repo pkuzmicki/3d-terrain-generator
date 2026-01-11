@@ -1,9 +1,10 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "core/app_panel.h"
 
 enum Camera_Mode {
     SPECTATOR,
@@ -73,7 +74,7 @@ public:
 
     void process_keyboard_input(Camera_Movement direction, float deltaTime);
 
-    void process_mouse_input(float xOffset, float yOffset, GLboolean constrain_pitch = true);
+    void process_mouse_input(float xOffset, float yOffset, bool constrain_pitch = true);
 
     void process_scroll_input(float yOffset);
 

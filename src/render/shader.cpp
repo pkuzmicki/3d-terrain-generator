@@ -1,6 +1,3 @@
-#include "shader.h"
-
-#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -10,6 +7,9 @@
 #include <sstream>
 #include <iostream>
 #include <filesystem>
+
+#include "shader.h"
+#include "core/app_panel.h"
  
 Shader::Shader() : Shader("../res/shaders/terrain.vert",
                     "../res/shaders/terrain.frag") {};

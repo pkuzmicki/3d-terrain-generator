@@ -3,7 +3,7 @@
 #ifndef UI_H
 #define UI_H
 
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 
 void init_ui(GLFWwindow* window);
 void draw_ui();

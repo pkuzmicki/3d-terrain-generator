@@ -1,9 +1,12 @@
 #ifndef APP_PANEL_H
 #define APP_PANEL_H
 
-#include <glfw/glfw3.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 #include "render/renderer.h"
+
+class Renderer;
 
 class AppPanel {
 protected:
