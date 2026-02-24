@@ -11,71 +11,76 @@ TerrainGenerator::TerrainGenerator() {
     init_value_noise();
 }
 
+float x;
+float z;
+
 void TerrainGenerator::init_value_noise() {
-    //TODO potem do ustawienia w menu narazie na sztywno
+    //TODO potem do ustawienia w menu narazie na sztywno / raczej róźne biomy dodam poprostu na sztywno 
     const int POINTCOUNT = 31;
     int g_nUtahDistribution[POINTCOUNT] = {
     1, 4, 6, 7, 7, 8, 10, 11, 14, 30, 37, 30, 19, 11, 8, 5, 5, 4, 3, 3, 3, 3, 3, 3, 5, 4, 4, 3, 2, 2, 1
     };
 
+    int seed = std::time(0);
+    std::srand(seed);
+
+    x = (float)rand();
+    z = (float)rand();
+
     v.Initialize();
     v.SetValueTable(g_nUtahDistribution, POINTCOUNT);  
 }
 
-Mesh TerrainGenerator::generate_value_noise_mesh(unsigned int size, unsigned int numoctaves, unsigned int altitude) {
-    // const int NUMOCTAVES = 8;
-    // const int ALTITUDE = 100;
-    unsigned int terrain_width = size;
-    unsigned int terrain_length = size;
+Mesh TerrainGenerator::generate_value_noise_mesh(
+    unsigned int chunk_size, 
+    unsigned int numoctaves, 
+    unsigned int altitude, 
+    int offset_x, 
+    int offset_z
+) {
+    float scale = 256.0f;
 
-    int seed = std::time(0);
-    std::srand(seed);
+    std::vector<Vertex> positions(chunk_size*chunk_size);
+    std::vector<float> heights(chunk_size*chunk_size);
 
-    float x = (float)rand();
-    float z = (float)rand();
-    std::vector<float> heights(terrain_width * terrain_length);
+    for (int i = 0; i < chunk_size; i++) {
+        for (int j = 0; j < chunk_size; j++) {
 
-    for (int i = 0; i < terrain_width; i++) {
-        for (int j = 0; j < terrain_length; j++) {
-            heights[i * terrain_width + j] = (altitude * v.GetHeight(x + i/256.0f, z + j/256.0f, 0.5f, 2.0f, numoctaves));
+            float global_x = offset_x + i;
+            float global_z = offset_z + j;
+
+            float height = (altitude * v.GetHeight(
+                global_x / scale, 
+                global_z / scale, 
+                0.5f, 
+                2.0f, 
+                numoctaves
+            ));
+
+            int index = i * chunk_size + j;
+
+            positions[index].postion.x = global_x;
+            positions[index].postion.y = height;
+            positions[index].postion.z = global_z;
         }
     }
 
-    std::vector<Vertex> positions(terrain_width * terrain_length);
-
-    int i1 = 0;
-
-    for (int z = 0; z < terrain_width; z++) {
-        for (int x = 0; x < terrain_length; x++) {
-            float x1 = 0.2f * x;
-            float y1 = heights[z * terrain_length + x];
-            float z1 = 0.2f * z;
-
-            positions[i1].postion.x = x1;
-            positions[i1].postion.y = y1;
-            positions[i1].postion.z = z1;
-            i1++;
-        }
-    }
-
-    // SUBSTYTUT ZROB INNE
-    std::vector<unsigned int> indices((terrain_width - 1) * (terrain_length - 1) * 6);
-
+    int indices_count = chunk_size - 1;
+    std::vector<unsigned int> indices(indices_count * indices_count * 6);
     int idx = 0;
 
-    for (int z = 0; z < terrain_width - 1; z++) {
-        for (int x = 0; x < terrain_length - 1; x++) {
-            int topLeft     =  z      * terrain_length + x;
-            int topRight    =  z      * terrain_length + x + 1;
-            int bottomLeft  = (z + 1) * terrain_length + x;
-            int bottomRight = (z + 1) * terrain_length + x + 1;
+    for (int z = 0; z < indices_count; z++) {
+        for (int x = 0; x < indices_count; x++) {
 
-            // trójkąt 1
+            int topLeft = z * chunk_size + x;
+            int topRight = z * chunk_size + x + 1;
+            int bottomLeft = (z + 1) * chunk_size + x;
+            int bottomRight = (z + 1) * chunk_size + x + 1;
+
             indices[idx++] = topLeft;
             indices[idx++] = bottomLeft;
             indices[idx++] = topRight;
 
-            // trójąt 2
             indices[idx++] = topRight;
             indices[idx++] = bottomLeft;
             indices[idx++] = bottomRight;

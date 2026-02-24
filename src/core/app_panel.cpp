@@ -1,7 +1,6 @@
 #include "app_panel.h"
 
 #include <GLFW/glfw3.h>
-//#include <glad/glad.h>
 #include <iostream>
 
 #include "render/renderer.h"
@@ -45,7 +44,6 @@ void AppPanel::init() {
 
     renderer = new Renderer();
     s_manager = new SceneManager();
-    //to do oblsugi na przyciski
     s_manager->current_scene = new TerrainScene();
 
     init_input(window);
@@ -63,9 +61,11 @@ void AppPanel::run() {
 
         update_mode();
         renderer->frame_begin();
+        s_manager->current_scene->update_scene();
         renderer->render_scene(*s_manager->current_scene);
         draw_ui();
 
+        //std::cout<<renderer->main_camera->position.x<<" "<<renderer->main_camera->position.y<<" "<<renderer->main_camera->position.x<<"\n";
 
         glfwPollEvents();    
         glfwSwapBuffers(window);

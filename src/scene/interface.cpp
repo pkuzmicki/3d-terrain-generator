@@ -27,15 +27,20 @@ void draw_ui() {
 
     ImGui::Begin("Edit Window");
 
-    unsigned int min = 1, max_size = 2500, max_numocataves = 17, max_altitude = 500;
+    unsigned int min = 1, max_size = 2500, max_numocataves = 17, max_altitude = 500, max_render_distance = 100;
     // ImGui::SliderScalar("WIDTH", ImGuiDataType_U32, &settings->width, &min, &max_size);
     // ImGui::SliderScalar("LENGTH", ImGuiDataType_U32, &settings->length, &min, &max_size);
-    ImGui::SliderScalar("SIZE", ImGuiDataType_U32, &settings->size, &min, &max_size);
+    //ImGui::SliderScalar("SIZE", ImGuiDataType_U32, &settings->size, &min, &max_size);
     ImGui::SliderScalar("NUMOCTAVES", ImGuiDataType_U32, &settings->numoctaves, &min, &max_numocataves);
     ImGui::SliderScalar("ALTITUDE", ImGuiDataType_U32, &settings->altitude, &min, &max_altitude);
 
-    if (ImGui::Button("RENDER"))
-        ap->s_manager->current_scene->update_scene();
+    ImGui::SliderScalar("distance", ImGuiDataType_U32, &settings->render_distance, &min, &max_render_distance);
+
+    if (ImGui::Button("reset")) {
+        ap->s_manager->current_scene->meshes.clear();
+        ap->s_manager->current_scene->get_generator()->active_chunks.clear();
+    }
+
     ImGui::End();
 
     ImGui::Render();

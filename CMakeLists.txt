@@ -44,8 +44,8 @@ target_include_directories(gardens PRIVATE
     external/imgui
 )
 
-target_link_libraries(gardens
-    PRIVATE
-        glfw
-        opengl32
-)
+if (WIN32)
+    target_link_libraries(gardens PRIVATE glfw opengl32)
+elseif (UNIX)
+    target_link_libraries(gardens PRIVATE glfw opengl32)
+endif()

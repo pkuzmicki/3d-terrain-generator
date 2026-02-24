@@ -1,4 +1,3 @@
-//#include <glad/glad.h>
 #include "core/app_panel.h"
 #include "render/mesh.h"
 

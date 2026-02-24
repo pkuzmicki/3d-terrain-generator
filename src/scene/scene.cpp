@@ -1,20 +1,47 @@
 #include "scene.h"
 
+static AppPanel* ap = &AppPanel::getInstance();
+
 Mesh make_cube();
 
 void Scene::update_scene() {}
 
-void TerrainScene::update_scene() {
-    meshes.pop_back();
-    meshes.push_back(generator.generate_value_noise_mesh(settings.size, settings.numoctaves, settings.altitude));
-}
+void Scene::add_chunk(std::pair<int, int> coords) {}
 
 TerrainScene::TerrainScene() {
     meshes.push_back(make_cube());
-    meshes.push_back(generator.generate_value_noise_mesh());
 }
 
+void TerrainScene::update_scene() {
+    int current_chunk_x = std::floor(ap->renderer->main_camera->position.x / settings.chunk_size);
+    int current_chunk_z = std::floor(ap->renderer->main_camera->position.z / settings.chunk_size);
+    std::cout<<current_chunk_x<<" "<<current_chunk_z<<"\n";
+    std::pair<int, int> coords(current_chunk_x, current_chunk_z);
 
+    int render_distance = settings.render_distance;
+
+    for (int i = coords.first-render_distance; i <= coords.first+render_distance; i++) {
+        for (int j = coords.second-render_distance; j <= coords.second+render_distance; j++) {
+            auto iterator = generator.active_chunks.find(std::make_pair(i, j));
+            if (iterator == generator.active_chunks.end()) {
+                add_chunk(std::make_pair(i, j));
+            }
+        } 
+    }
+}
+
+void TerrainScene::add_chunk(std::pair<int, int> coords) {
+    Mesh new_chunk_mesh = generator.generate_value_noise_mesh(
+        settings.chunk_size, 
+        settings.numoctaves, 
+        settings.altitude, 
+        (settings.chunk_size-1) * coords.first, 
+        (settings.chunk_size-1) * coords.second
+    );
+    
+    generator.active_chunks.emplace(coords, new_chunk_mesh);
+    meshes.push_back(new_chunk_mesh);
+}
 
 Mesh make_cube() {
     std::vector<Vertex> vertices = {
