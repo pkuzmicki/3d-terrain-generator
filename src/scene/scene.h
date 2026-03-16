@@ -10,9 +10,10 @@
 #include "render/camera.h"
 #include "render/mesh.h"
 #include "terrain.h"
+//#include "scene/biome_manager.h"
 
 struct GeneratorSettings {
-    unsigned int chunk_size = 25;
+    unsigned int chunk_size = 32;
     unsigned int altitude = 100;
     unsigned int numoctaves = 8;
     unsigned int render_distance = 3;

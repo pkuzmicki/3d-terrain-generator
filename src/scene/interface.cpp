@@ -4,6 +4,8 @@
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
 
+#include <string>
+
 AppPanel* ap = &AppPanel::getInstance();
 GeneratorSettings* settings;
 
@@ -36,10 +38,38 @@ void draw_ui() {
 
     ImGui::SliderScalar("distance", ImGuiDataType_U32, &settings->render_distance, &min, &max_render_distance);
 
+    
+
     if (ImGui::Button("reset")) {
         ap->s_manager->current_scene->meshes.clear();
         ap->s_manager->current_scene->get_generator()->active_chunks.clear();
     }
+
+    std::string coords;
+    ImGui::Text("Chunk: ");
+    coords.append(std::to_string((int)ap->renderer->main_camera->chunk.x));
+    coords.append(", ");
+    coords.append(std::to_string((int)ap->renderer->main_camera->chunk.y));
+    ImGui::Text(coords.c_str());
+
+    coords.clear();
+
+    ImGui::Text("Player Coords: ");
+    coords.append(std::to_string(ap->renderer->main_camera->position.x));
+    coords.append(", ");
+    coords.append(std::to_string(ap->renderer->main_camera->position.y));
+    coords.append(", ");
+    coords.append(std::to_string(ap->renderer->main_camera->position.z));
+    ImGui::Text(coords.c_str());
+
+    ImGui::End();
+
+    ImGui::SetNextWindowSizeConstraints(ImVec2(500, 500), ImVec2(500, 500));
+    ImGui::SetNextWindowSize(ImVec2(500, 500));
+    ImGui::Begin("Map");
+
+    //ImGui::Image()
+    
 
     ImGui::End();
 

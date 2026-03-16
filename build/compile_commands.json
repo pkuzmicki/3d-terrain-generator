@@ -103,6 +103,12 @@
 },
 {
   "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\scene\\biome_manager.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\scene\\biome_manager.cpp",
+  "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\scene\\biome_manager.cpp",
+  "output": "CMakeFiles\\gardens.dir\\src\\scene\\biome_manager.cpp.obj"
+},
+{
+  "directory": "C:/Users/Boryss/Desktop/Gardens3D/build",
   "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\scene\\interface.cpp.obj -c C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\scene\\interface.cpp",
   "file": "C:\\Users\\Boryss\\Desktop\\Gardens3D\\src\\scene\\interface.cpp",
   "output": "CMakeFiles\\gardens.dir\\src\\scene\\interface.cpp.obj"

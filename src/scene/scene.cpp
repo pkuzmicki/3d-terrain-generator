@@ -15,8 +15,11 @@ TerrainScene::TerrainScene() {
 void TerrainScene::update_scene() {
     int current_chunk_x = std::floor(ap->renderer->main_camera->position.x / settings.chunk_size);
     int current_chunk_z = std::floor(ap->renderer->main_camera->position.z / settings.chunk_size);
-    std::cout<<current_chunk_x<<" "<<current_chunk_z<<"\n";
+
     std::pair<int, int> coords(current_chunk_x, current_chunk_z);
+
+    ap->renderer->main_camera->chunk.x = current_chunk_x;
+    ap->renderer->main_camera->chunk.y = current_chunk_z;
 
     int render_distance = settings.render_distance;
 
@@ -31,10 +34,13 @@ void TerrainScene::update_scene() {
 }
 
 void TerrainScene::add_chunk(std::pair<int, int> coords) {
+    auto biome_seeds = generate_biome_seeds(coords.first, coords.second, settings.chunk_size, generator.seed);
+
     Mesh new_chunk_mesh = generator.generate_value_noise_mesh(
-        settings.chunk_size, 
-        settings.numoctaves, 
-        settings.altitude, 
+        biome_seeds,
+        ap->renderer->main_camera->position.x,
+        ap->renderer->main_camera->position.z,
+        settings.chunk_size,
         (settings.chunk_size-1) * coords.first, 
         (settings.chunk_size-1) * coords.second
     );

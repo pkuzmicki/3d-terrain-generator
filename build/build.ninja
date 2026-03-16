@@ -185,6 +185,14 @@ build CMakeFiles/gardens.dir/src/scene/terrain.cpp.obj: CXX_COMPILER__gardens_un
   OBJECT_DIR = CMakeFiles\gardens.dir
   OBJECT_FILE_DIR = CMakeFiles\gardens.dir\src\scene
 
+build CMakeFiles/gardens.dir/src/scene/biome_manager.cpp.obj: CXX_COMPILER__gardens_unscanned_Debug C$:/Users/Boryss/Desktop/Gardens3D/src/scene/biome_manager.cpp || cmake_object_order_depends_target_gardens
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\gardens.dir\src\scene\biome_manager.cpp.obj.d
+  FLAGS = -g
+  INCLUDES = -IC:/Users/Boryss/Desktop/Gardens3D/src -IC:/Users/Boryss/Desktop/Gardens3D/external -IC:/Users/Boryss/Desktop/Gardens3D/external/glm -IC:/Users/Boryss/Desktop/Gardens3D/external/glad -IC:/Users/Boryss/Desktop/Gardens3D/external/imgui -IC:/Users/Boryss/Desktop/Gardens3D/external/glfw/include
+  OBJECT_DIR = CMakeFiles\gardens.dir
+  OBJECT_FILE_DIR = CMakeFiles\gardens.dir\src\scene
+
 build CMakeFiles/gardens.dir/src/scene/interface.cpp.obj: CXX_COMPILER__gardens_unscanned_Debug C$:/Users/Boryss/Desktop/Gardens3D/src/scene/interface.cpp || cmake_object_order_depends_target_gardens
   CONFIG = Debug
   DEP_FILE = CMakeFiles\gardens.dir\src\scene\interface.cpp.obj.d
@@ -201,7 +209,7 @@ build CMakeFiles/gardens.dir/src/scene/interface.cpp.obj: CXX_COMPILER__gardens_
 #############################################
 # Link the executable gardens.exe
 
-build gardens.exe: CXX_EXECUTABLE_LINKER__gardens_Debug CMakeFiles/gardens.dir/external/glad/src/glad.c.obj CMakeFiles/gardens.dir/external/imgui/imgui.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_impl_opengl3.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_impl_glfw.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_draw.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_tables.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_widgets.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_demo.cpp.obj CMakeFiles/gardens.dir/src/main.cpp.obj CMakeFiles/gardens.dir/src/core/app_panel.cpp.obj CMakeFiles/gardens.dir/src/core/input.cpp.obj CMakeFiles/gardens.dir/src/render/renderer.cpp.obj CMakeFiles/gardens.dir/src/render/shader.cpp.obj CMakeFiles/gardens.dir/src/render/camera.cpp.obj CMakeFiles/gardens.dir/src/render/mesh.cpp.obj CMakeFiles/gardens.dir/src/scene/scene.cpp.obj CMakeFiles/gardens.dir/src/scene/terrain.cpp.obj CMakeFiles/gardens.dir/src/scene/interface.cpp.obj | external/glfw/src/libglfw3.a || external/glfw/src/libglfw3.a
+build gardens.exe: CXX_EXECUTABLE_LINKER__gardens_Debug CMakeFiles/gardens.dir/external/glad/src/glad.c.obj CMakeFiles/gardens.dir/external/imgui/imgui.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_impl_opengl3.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_impl_glfw.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_draw.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_tables.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_widgets.cpp.obj CMakeFiles/gardens.dir/external/imgui/imgui_demo.cpp.obj CMakeFiles/gardens.dir/src/main.cpp.obj CMakeFiles/gardens.dir/src/core/app_panel.cpp.obj CMakeFiles/gardens.dir/src/core/input.cpp.obj CMakeFiles/gardens.dir/src/render/renderer.cpp.obj CMakeFiles/gardens.dir/src/render/shader.cpp.obj CMakeFiles/gardens.dir/src/render/camera.cpp.obj CMakeFiles/gardens.dir/src/render/mesh.cpp.obj CMakeFiles/gardens.dir/src/scene/scene.cpp.obj CMakeFiles/gardens.dir/src/scene/terrain.cpp.obj CMakeFiles/gardens.dir/src/scene/biome_manager.cpp.obj CMakeFiles/gardens.dir/src/scene/interface.cpp.obj | external/glfw/src/libglfw3.a || external/glfw/src/libglfw3.a
   CONFIG = Debug
   FLAGS = -g
   LINK_LIBRARIES = external/glfw/src/libglfw3.a  -lopengl32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

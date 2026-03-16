@@ -3,8 +3,10 @@
 #ifndef TERRAIN_H
 #define TERRAIN_H
 
+// #include "core/app_panel.h"
 #include "noise/valuenoise.h"
 #include "render/mesh.h"
+#include "scene/biome_manager.h"
 
 #include <unordered_map>
 #include <map>
@@ -17,6 +19,8 @@ struct PairHash {
 };
 
 struct TerrainGenerator {
+    int seed;
+
     Mesh* terrain_mesh;
     static ValueNoiseGeneration v;
 
@@ -28,7 +32,8 @@ struct TerrainGenerator {
     void resize_terrain();
 
     void init_value_noise();
-    Mesh generate_value_noise_mesh(unsigned int size = 1000, unsigned int NUMOCTAVES = 8, unsigned int ALTITUDE = 50, int offset_x = 0, int offset_z = 0);
+    Mesh generate_value_noise_mesh(std::vector<BiomeSeed> seeds, int camera_x, int camera_z, unsigned int size = 1000, int offset_x = 0, int offset_z = 0);
+    //unsigned int NUMOCTAVES = 8, unsigned int ALTITUDE = 50
 };
 
 #endif

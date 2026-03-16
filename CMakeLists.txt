@@ -33,6 +33,7 @@ target_sources(gardens
         src/render/mesh.cpp
         src/scene/scene.cpp
         src/scene/terrain.cpp
+        src/scene/biome_manager.cpp
         src/scene/interface.cpp
 )
 

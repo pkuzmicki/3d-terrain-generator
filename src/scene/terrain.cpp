@@ -1,11 +1,13 @@
 #include "terrain.h"
 #include "noise/valuenoise.h"
 #include "render/renderer.h"
+#include "scene/biome_manager.h"
 
 #include <vector>
 #include <chrono>
 
 ValueNoiseGeneration TerrainGenerator::v;
+// static AppPanel* ap = &AppPanel::getInstance();
 
 TerrainGenerator::TerrainGenerator() {
     init_value_noise();
@@ -21,8 +23,9 @@ void TerrainGenerator::init_value_noise() {
     1, 4, 6, 7, 7, 8, 10, 11, 14, 30, 37, 30, 19, 11, 8, 5, 5, 4, 3, 3, 3, 3, 3, 3, 5, 4, 4, 3, 2, 2, 1
     };
 
-    int seed = std::time(0);
+    seed = std::time(0);
     std::srand(seed);
+    std::cout<<"seed: "<<seed<<"\n";
 
     x = (float)rand();
     z = (float)rand();
@@ -32,13 +35,14 @@ void TerrainGenerator::init_value_noise() {
 }
 
 Mesh TerrainGenerator::generate_value_noise_mesh(
+    std::vector<BiomeSeed> seeds,
+    int camera_x,
+    int camera_z,
     unsigned int chunk_size, 
-    unsigned int numoctaves, 
-    unsigned int altitude, 
     int offset_x, 
     int offset_z
 ) {
-    float scale = 256.0f;
+    //float scale = 256.0f;
 
     std::vector<Vertex> positions(chunk_size*chunk_size);
     std::vector<float> heights(chunk_size*chunk_size);
@@ -49,13 +53,35 @@ Mesh TerrainGenerator::generate_value_noise_mesh(
             float global_x = offset_x + i;
             float global_z = offset_z + j;
 
-            float height = (altitude * v.GetHeight(
-                global_x / scale, 
-                global_z / scale, 
-                0.5f, 
-                2.0f, 
-                numoctaves
-            ));
+            // BIOMES current_biome = get_biome(global_x, global_z, seeds);
+            // Biome biome = biome_values[current_biome];
+            // BlendedBiome biome = get_blended_biome(global_x, global_z, seeds);
+
+
+            // float height = (biome.altitude * v.GetHeight(
+            //     global_x / biome.scale, 
+            //     global_z / biome.scale, 
+            //     0.5f, 
+            //     2.0f,
+            //     biome.numoctaves
+            // ));
+
+            BiomeBlend blend = get_biome_blend(global_x, global_z, seeds);
+            Biome b1 = biome_values[blend.nearest->biome];
+            Biome b2 = biome_values[blend.second->biome];
+
+            float h1 = b1.altitude * v.GetHeight(
+                global_x / b1.scale,
+                global_z / b1.scale,
+                0.5f, 2.0f, b1.numoctaves
+            );
+            float h2 = b2.altitude * v.GetHeight(
+                global_x / b2.scale,
+                global_z / b2.scale,
+                0.5f, 2.0f, b2.numoctaves
+            );
+
+            float height = h1 * blend.w1 + h2 * blend.w2;
 
             int index = i * chunk_size + j;
 
