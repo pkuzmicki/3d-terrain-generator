@@ -16,7 +16,7 @@ struct GeneratorSettings {
     unsigned int chunk_size = 32;
     unsigned int altitude = 100;
     unsigned int numoctaves = 8;
-    unsigned int render_distance = 3;
+    unsigned int render_distance = 10;
 
     // const int NUMOCTAVES = 8;
     // const int ALTITUDE = 100;
