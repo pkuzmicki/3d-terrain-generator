@@ -1,25 +1,25 @@
 #include "scene.h"
 
-static AppPanel* ap = &AppPanel::getInstance();
-
 Mesh make_cube();
 
 void Scene::update_scene() {}
 
 void Scene::add_chunk(std::pair<int, int> coords) {}
 
-TerrainScene::TerrainScene() {
+TerrainScene::TerrainScene(AppPanel* ap) {
+    this->ap = ap;
+    this->minimap = ap->minimap;
     meshes.push_back(make_cube());
 }
 
 void TerrainScene::update_scene() {
-    int current_chunk_x = std::floor(ap->renderer->main_camera->position.x / settings.chunk_size);
-    int current_chunk_z = std::floor(ap->renderer->main_camera->position.z / settings.chunk_size);
+    int current_chunk_x = std::floor(ap->renderer->get_cam()->position.x / settings.chunk_size);
+    int current_chunk_z = std::floor(ap->renderer->get_cam()->position.z / settings.chunk_size);
 
     std::pair<int, int> coords(current_chunk_x, current_chunk_z);
 
-    ap->renderer->main_camera->chunk.x = current_chunk_x;
-    ap->renderer->main_camera->chunk.y = current_chunk_z;
+    ap->renderer->get_cam()->chunk.x = current_chunk_x;
+    ap->renderer->get_cam()->chunk.y = current_chunk_z;
 
     int render_distance = settings.render_distance;
 
@@ -27,7 +27,7 @@ void TerrainScene::update_scene() {
         for (int j = coords.second-render_distance; j <= coords.second+render_distance; j++) {
             auto iterator = generator.active_chunks.find(std::make_pair(i, j));
             if (iterator == generator.active_chunks.end()) {
-                add_chunk(std::make_pair(i, j));
+                add_chunk(std::make_pair(i, j)); 
             }
         } 
     }
@@ -38,8 +38,8 @@ void TerrainScene::add_chunk(std::pair<int, int> coords) {
 
     Mesh new_chunk_mesh = generator.generate_value_noise_mesh(
         biome_seeds,
-        ap->renderer->main_camera->position.x,
-        ap->renderer->main_camera->position.z,
+        ap->renderer->get_cam()->position.x,
+        ap->renderer->get_cam()->position.z,
         settings.chunk_size,
         (settings.chunk_size-1) * coords.first, 
         (settings.chunk_size-1) * coords.second
@@ -47,6 +47,8 @@ void TerrainScene::add_chunk(std::pair<int, int> coords) {
     
     generator.active_chunks.emplace(coords, new_chunk_mesh);
     meshes.push_back(new_chunk_mesh);
+
+    minimap->update_map(coords, new_chunk_mesh, settings.chunk_size);
 }
 
 Mesh make_cube() {

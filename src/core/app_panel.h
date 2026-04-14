@@ -5,8 +5,12 @@
 #include <GLFW/glfw3.h>
 
 #include "render/renderer.h"
+#include "scene/interface.h"
+#include "scene/minimap.h"
 
 class Renderer;
+class GUI;
+class MiniMap;
 
 class AppPanel {
 protected:
@@ -16,10 +20,13 @@ public:
     AppPanel(AppPanel &other) = delete;
     void operator=(const AppPanel &) = delete;
     static AppPanel& getInstance();
+    ~AppPanel();
 
     bool is_mouse_hidden = false;
 
     GLFWwindow* window;
+    GUI* gui;
+    MiniMap* minimap;
     Renderer* renderer;
     SceneManager* s_manager;
 

@@ -3,20 +3,10 @@
 #ifndef TERRAIN_H
 #define TERRAIN_H
 
-// #include "core/app_panel.h"
+#include "core/pairhash.h"
 #include "noise/valuenoise.h"
 #include "render/mesh.h"
 #include "scene/biome_manager.h"
-
-#include <unordered_map>
-#include <map>
-#include <utility>
-
-struct PairHash {
-    std::size_t operator()(const std::pair<int, int>& p) const {
-        return std::hash<int>()(p.first) ^ (std::hash<int>()(p.second) << 1);
-    }
-};
 
 struct TerrainGenerator {
     int seed;

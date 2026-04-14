@@ -58,8 +58,8 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath) {
     if(!success) {
         glGetShaderInfoLog(vertex, 512, NULL, infoLog);
         std::cout<<"ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"<<infoLog<<"\n";
-    };
-    std::cout<<"SHADER::VERTEX::COMPILATION_SUCCEDED\n"<<"\n";
+    } else
+        std::cout<<"SHADER::VERTEX::COMPILATION_SUCCEDED\n"<<"\n";
 
     fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fShaderCode, NULL);
@@ -69,8 +69,8 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath) {
     if(!success) {
         glGetShaderInfoLog(fragment, 512, NULL, infoLog);
         std::cout<<"ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"<<infoLog<<"\n";
-    }
-    std::cout<<"SHADER::FRAGMENT::COMPILATION_SUCCEDED\n"<<"\n";
+    } else
+        std::cout<<"SHADER::FRAGMENT::COMPILATION_SUCCEDED\n"<<"\n";
 
     ID = glCreateProgram();
     glAttachShader(ID, vertex);
@@ -81,8 +81,8 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath) {
     if(!success) {
         glGetProgramInfoLog(ID, 512, NULL, infoLog);
         std::cout<<"ERROR::SHADER::LINKING::COMPILATION_FAILED\n"<<infoLog<<"\n";
-    }
-    std::cout<<"SHADER::LINKING::COMPILATION_SUCCEDED\n"<<"\n";
+    } else 
+        std::cout<<"SHADER::LINKING::COMPILATION_SUCCEDED\n"<<"\n";
 
     glDeleteShader(vertex);
     glDeleteShader(fragment);

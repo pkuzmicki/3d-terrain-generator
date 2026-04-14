@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/cmake_install.cmake",
+		"C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/external/glfw/cmake_install.cmake",
+		"C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/external/glfw/src/cmake_install.cmake",
+		"C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/external/glfw/docs/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

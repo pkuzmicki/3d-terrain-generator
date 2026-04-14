@@ -10,13 +10,16 @@
 #include "render/camera.h"
 #include "render/mesh.h"
 #include "terrain.h"
-//#include "scene/biome_manager.h"
+#include "minimap.h"
+
+class AppPanel;
+class MiniMap;
 
 struct GeneratorSettings {
     unsigned int chunk_size = 32;
     unsigned int altitude = 100;
     unsigned int numoctaves = 8;
-    unsigned int render_distance = 10;
+    unsigned int render_distance = 1;
 
     // const int NUMOCTAVES = 8;
     // const int ALTITUDE = 100;
@@ -24,6 +27,7 @@ struct GeneratorSettings {
 
 class Scene {
 public:
+    
     std::vector<Mesh> meshes;
 
     virtual ~Scene() = default;
@@ -34,23 +38,32 @@ public:
 
     virtual GeneratorSettings* get_generator_settings() {return nullptr;}
     virtual TerrainGenerator* get_generator() {return nullptr;}
+    virtual MiniMap* get_minimap() {return nullptr;}
 };
 
 class TerrainScene : public Scene {
+private:
+    AppPanel* ap;
     TerrainGenerator generator;
     GeneratorSettings settings;
+    MiniMap* minimap;
 public:
-    TerrainScene();
+    TerrainScene(AppPanel* ap);
     ~TerrainScene() override = default;
 
     void update_scene() override;
     void add_chunk(std::pair<int, int> coords) override;
+
     GeneratorSettings* get_generator_settings() override {
         return &settings;
     }
 
     TerrainGenerator* get_generator() override {
         return &generator;
+    }
+
+    MiniMap* get_minimap() override {
+        return minimap;
     }
 };
 

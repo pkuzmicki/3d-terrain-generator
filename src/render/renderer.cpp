@@ -4,11 +4,14 @@
 
 #include "core/app_panel.h"
 #include "renderer.h"
-#include "render/mesh.h"
 #include "render/camera.h"
 
 Renderer::Renderer() {
     main_camera = new Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+}
+
+Camera* Renderer::get_cam() {
+    return main_camera;
 }
 
 void Renderer::calc_matrix() {
@@ -37,3 +40,39 @@ void Renderer::frame_begin() {
     calc_matrix();
 }
 
+void Renderer::create_framebuffer() {
+    glGenFramebuffers(1, &FBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+
+    glGenTextures(1, &screen_texture);
+    glBindTexture(GL_TEXTURE_2D, screen_texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, screen_texture, 0);
+
+	glGenRenderbuffers(1, &RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 512, 512);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!\n";
+    else
+        std::cout <<"FRAMEBUFFER::CREATION::SUCCESS\n";
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
+}
+
+void Renderer::bind_framebuffer() {
+    glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+}
+
+void Renderer::unbind_framebuffer() {
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}

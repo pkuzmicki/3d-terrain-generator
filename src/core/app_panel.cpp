@@ -7,11 +7,14 @@
 #include "render/renderer.h"
 #include "scene/scene_manager.h"
 #include "input.h"
-#include "scene/interface.h"
 
 AppPanel& AppPanel::getInstance() {
     static AppPanel ap_;
     return ap_;
+}
+
+AppPanel::~AppPanel() {
+    delete renderer, s_manager, s_manager->current_scene, gui;
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
@@ -45,10 +48,14 @@ void AppPanel::init() {
 
     renderer = new Renderer();
     s_manager = new SceneManager();
-    s_manager->current_scene = new TerrainScene();
+    minimap = new MiniMap();
+    s_manager->current_scene = new TerrainScene(this);
+    gui = new GUI();
 
     init_input(window);
-    init_ui(window);
+    gui->init_gui(window, this);
+
+    //renderer->create_framebuffer();
 
     std::cout<<"Initizalization Succesfull\n";
 }
@@ -61,18 +68,24 @@ void AppPanel::run() {
         key_callback(window, delta_time);
 
         update_mode();
+
         renderer->frame_begin();
         s_manager->current_scene->update_scene();
         renderer->render_scene(*s_manager->current_scene);
-        draw_ui();
 
-        //std::cout<<renderer->main_camera->position.x<<" "<<renderer->main_camera->position.y<<" "<<renderer->main_camera->position.x<<"\n";
+        // renderer->bind_framebuffer();
+        // renderer->frame_begin();
+        // s_manager->current_scene->update_scene();
+        // renderer->render_scene(*s_manager->current_scene);
+        // renderer->unbind_framebuffer();
+        
+        gui->draw_gui(&getInstance());
 
         glfwPollEvents();    
         glfwSwapBuffers(window);
     }
 
-    free_ui();
+    gui->free_gui();
     glfwTerminate(); 
 }
 

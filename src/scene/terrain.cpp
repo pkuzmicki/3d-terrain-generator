@@ -17,7 +17,6 @@ float x;
 float z;
 
 void TerrainGenerator::init_value_noise() {
-    //TODO potem do ustawienia w menu narazie na sztywno / raczej róźne biomy dodam poprostu na sztywno 
     const int POINTCOUNT = 31;
     int g_nUtahDistribution[POINTCOUNT] = {
     1, 4, 6, 7, 7, 8, 10, 11, 14, 30, 37, 30, 19, 11, 8, 5, 5, 4, 3, 3, 3, 3, 3, 3, 5, 4, 4, 3, 2, 2, 1
@@ -66,6 +65,7 @@ Mesh TerrainGenerator::generate_value_noise_mesh(
             //     biome.numoctaves
             // ));
 
+            //TODO poprawic biomy
             BiomeBlend blend = get_biome_blend(global_x, global_z, seeds);
             Biome b1 = biome_values[blend.nearest->biome];
             Biome b2 = biome_values[blend.second->biome];

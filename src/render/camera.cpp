@@ -2,7 +2,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "camera.h"
-#include "core/app_panel.h"
 
 void Camera::updateCameraVectors() {
     if (mode == SPECTATOR) {
@@ -29,6 +28,7 @@ void Camera::updateCameraVectors() {
 glm::mat4 Camera::get_view_matrix() {
     if (mode == SPECTATOR)
         return glm::lookAt(position, position + front, up);
+        //return glm::lookAt(glm::vec3(0.0f, 250.0f, 0.0f), position + front, up);
     else {
         return glm::lookAt(position, target, up);
     }

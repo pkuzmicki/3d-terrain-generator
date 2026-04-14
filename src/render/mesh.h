@@ -28,6 +28,7 @@ public:
 
     Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
     void draw(Shader &shader);
+    
 private:
     unsigned int VAO, VBO, EBO;
     void setup_mesh();

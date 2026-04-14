@@ -41,22 +41,22 @@ void Mesh::draw(Shader &shader) {
     } else {
         shader.setBool("useTexture", true);
 
-        unsigned int diffuse_nr = 1;
-        unsigned int specular_nr = 1;
-        for (unsigned int i = 0; i < textures.size(); i++) {
-            glActiveTexture(GL_TEXTURE0 + i);
-            std::string number;
-            std::string name = textures[i].type;
+        // unsigned int diffuse_nr = 1;
+        // unsigned int specular_nr = 1;
+        // for (unsigned int i = 0; i < textures.size(); i++) {
+        //     glActiveTexture(GL_TEXTURE0 + i);
+        //     std::string number;
+        //     std::string name = textures[i].type;
 
-            if (name == "texture_diffuse")
-                number = std::to_string(specular_nr++);
-            else
-                number = std::to_string(specular_nr++);
+        //     if (name == "texture_diffuse")
+        //         number = std::to_string(specular_nr++);
+        //     else
+        //         number = std::to_string(specular_nr++);
 
-            shader.setInt(("material." + name + number).c_str(), i);
-            glBindTexture(GL_TEXTURE_2D, textures[i].id);
-        }
-        glActiveTexture(GL_TEXTURE0);
+        //     shader.setInt(("material." + name + number).c_str(), i);
+        //     glBindTexture(GL_TEXTURE_2D, textures[i].id);
+        // }
+        // glActiveTexture(GL_TEXTURE0);
     }
 
     glBindVertexArray(VAO);

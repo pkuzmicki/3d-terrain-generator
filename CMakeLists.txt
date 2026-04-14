@@ -2,18 +2,13 @@ cmake_minimum_required(VERSION 3.23)
 
 project(Gardens3D)
 
-# set(GLFW_BUILD_EXAMPLES OFF)
-# set(GLFW_BUILD_TESTS OFF)
-# set(GLFW_BUILD_DOCS OFF)
-# set(GLFW_INSTALL OFF)
 set(BUILD_SHARED_LIBS OFF)
 
 add_subdirectory(external/glfw)
 
+file(GLOB_RECURSE SOURCES "src/*.cpp")
 
-add_executable(gardens)
-
-add_definitions(-DGLFW_INCLUDE_NONE)
+add_executable(gardens ${SOURCES})
 
 target_sources(gardens
     PRIVATE
@@ -25,18 +20,6 @@ target_sources(gardens
         external/imgui/imgui_tables.cpp
         external/imgui/imgui_widgets.cpp
         external/imgui/imgui_demo.cpp
-        src/main.cpp
-        src/core/app_panel.cpp
-        src/core/input.cpp
-        src/render/renderer.cpp
-        src/render/shader.cpp
-        src/render/camera.cpp 
-        src/render/mesh.cpp
-        src/scene/scene.cpp
-        src/scene/terrain.cpp
-        src/scene/biome_manager.cpp
-        src/scene/interface.cpp
-        #src/*.cpp
 )
 
 target_include_directories(gardens PRIVATE

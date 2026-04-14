@@ -8,7 +8,7 @@ void init_input(GLFWwindow* window) {
     i.first_mouse = true;
     i.lastX = ap->SCREEN_WIDTH / 2.0f;
     i.lastY = ap->SCREEN_HEIGHT / 2.0f;
-    i.camera = ap->renderer->main_camera;
+    i.camera = ap->renderer->get_cam();
 
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);

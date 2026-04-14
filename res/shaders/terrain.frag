@@ -17,8 +17,10 @@ void main() {
 
     vec3 c;
 
-    if (h > 0.5) c = mix(mix(lightGreen, darkGreen, clamp(h, 0.0, 1.0)), mix(vec3(0.9, 1.0, 1.0), vec3(0.75, 0.75, 0.8), clamp(h, 0.0, 1.0)), h);
-    else mix(darkGreen, vec3(0.0, 0.45, 0.75), clamp(h, 0.0, 1.0));
+    // if (h > 0.5) c = mix(mix(lightGreen, darkGreen, clamp(h, 0.0, 1.0)), mix(vec3(0.9, 1.0, 1.0), vec3(0.75, 0.75, 0.8), clamp(h, 0.0, 1.0)), h);
+    // else mix(darkGreen, vec3(0.0, 0.45, 0.75), clamp(h, 0.0, 1.0));
+
+    c = mix(mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), clamp(h, 0.2, 1.0)), mix(vec3(0.0, 1.0, 0.0), vec3(0.0, 0.0, 1.0), clamp(h, 0.2, 1.0)), h);
 
     
     // if (h > 0.8) c = mix(vec3(0.9, 1.0, 1.0), vec3(0.75, 0.75, 0.8), clamp(h, 0.0, 1.0));
