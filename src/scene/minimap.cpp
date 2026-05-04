@@ -12,7 +12,6 @@ void MiniMap::update_map(std::pair<int, int> chunk_coords, Mesh chunk_mesh, int 
     unsigned char* new_map_texture = new unsigned char [map_size*map_size*3];
 
     int idx = 0;
-    //for (int i = 0; i < map_size*map_size*3; i+=3) {
     for (int i = 0; i < map_size*map_size*3; i+=3) {
 
         unsigned char r, g, b;
@@ -20,15 +19,27 @@ void MiniMap::update_map(std::pair<int, int> chunk_coords, Mesh chunk_mesh, int 
         // if (y < 20) r = 255, g = 0, b = 0;
         // else if (y > 20 && y < 100) r = 0, g = 255, b = 0;
         // else r = 0, g = 0, b = 255;
-        if (y < 30) {r = 255; g = 0; b = 0;}
-        else if (y > 30 && y < 80) {r = 0; g = 255; b = 0;}
-        else {r = 0; g = 0; b = 255;};
+        if (y < 30) {r = 9; g = 107; b = 173;}
+        else if (y > 30 && y < 80) {r = 93; g = 177; b = 87;}
+        else {r = 178; g = 93; b = 42;};
         
         new_map_texture[i] = r;
         new_map_texture[i+1] = g;
         new_map_texture[i+2] = b;
         //std::cout<<"txt: "<<new_map_texture[i]<<"\n";
     }
+
+    // unsigned char r = 255, g = 255, b = 255;
+    // for(BiomeSeed s : seeds) {
+    //     if (s.x > chunk_coords.first*map_size && s.x < chunk_coords.first*map_size + map_size) {
+    //         if (s.z > chunk_coords.second*map_size && s.z < chunk_coords.second*map_size + map_size) {
+
+    //             new_map_texture[i] = r;
+    //             new_map_texture[i+1] = g;
+    //             new_map_texture[i+2] = b;
+    //         }
+    //     }
+    // }
 
     unsigned int texture;
     glGenTextures(1, &texture);

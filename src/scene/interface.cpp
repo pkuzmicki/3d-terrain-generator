@@ -5,6 +5,7 @@
 
 #include "core/app_panel.h"
 
+
 #include <string>
 
 void GUI::init_gui(GLFWwindow* window, AppPanel* ap) {
@@ -17,6 +18,33 @@ void GUI::init_gui(GLFWwindow* window, AppPanel* ap) {
     ImGui_ImplOpenGL3_Init("#version 330");
 
     minimap = ap->minimap;
+    calc_map(ap);
+}
+
+void GUI::calc_map(AppPanel* ap) {
+        
+    float x = (float)rand();
+    float z = (float)rand();
+
+    ALTITUDE = 20;
+    //NUMOCTAVES = 8;
+
+    CELLSIZE = 512;
+    for(int i=0; i<CELLSIZE; i++) {
+        for(int j=0; j<CELLSIZE; j++) {
+            float c =  ALTITUDE * ap->s_manager->current_scene->get_generator()->v.GetHeight(x + i/256.0f, z + j/256.0f, 0.5f, 2.0f, NUMOCTAVES);
+            points.push_back(c);
+        }
+    }
+
+
+    // CELLSIZE = 32;
+    // for(int i=0; i<CELLSIZE; i++) {
+    //     for(int j=0; j<CELLSIZE; j++) {
+    //         float c =  ALTITUDE * ap->s_manager->current_scene->get_generator()->v.GetHeight(x + i/256.0f, z + j/256.0f, 0.5f, 2.0f, NUMOCTAVES);
+    //         points1.push_back(c);
+    //     }
+    // }
 }
 
 void GUI::draw_gui(AppPanel* ap) {
@@ -60,10 +88,14 @@ void GUI::draw_gui(AppPanel* ap) {
     coords.append(std::to_string(ap->renderer->get_cam()->position.z));
     ImGui::Text(coords.c_str());
 
+    ImGui::Text("Biome: ");
+    ImGui::Text(biome_names[ap->s_manager->current_scene->get_generator()->get_current_biome(ap->renderer->get_cam()->position.x, ap->renderer->get_cam()->position.z)]);
+
     ImGui::End();
 
     //draw_screen(ap->renderer->screen_texture);
     draw_minimap(ap);
+    draw_diagram(ap);
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -71,20 +103,10 @@ void GUI::draw_gui(AppPanel* ap) {
 
 void GUI::draw_minimap(AppPanel* ap) {
     ImVec2 size(map_window_size, map_window_size);
-    //ImGui::SetNextWindowSizeConstraints(size, size);
-    //ImGui::SetNextWindowSize(size);
     ImGui::Begin("Map", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
     
 
     ImVec2 pos = ImGui::GetCursorScreenPos();
-    // auto i = minimap->get_minimap().find(std::make_pair(ap->renderer->get_cam()->chunk.x, ap->renderer->get_cam()->chunk.y));
-    // if (i == minimap->get_minimap().end()) {
-    //     std::cout<<"0";
-    // } else {
-    //     unsigned int txt = minimap->get_minimap().at(std::make_pair(ap->renderer->get_cam()->chunk.x, ap->renderer->get_cam()->chunk.y));
-    //     ImVec2 map_pos(pos.x + pixels_per_chunk * ap->renderer->get_cam()->chunk.x, pos.y + pixels_per_chunk * ap->renderer->get_cam()->chunk.y);
-    //     ImGui::GetWindowDrawList()->AddImage((ImTextureID)txt, map_pos, ImVec2(map_pos.x + pixels_per_chunk, map_pos.y + pixels_per_chunk), ImVec2(0, 1), ImVec2(1, 0));
-    // }
 
     if (ImGui::IsWindowHovered()) {
         float scroll = ImGui::GetIO().MouseWheel;
@@ -115,8 +137,13 @@ void GUI::draw_minimap(AppPanel* ap) {
         );
     }
 
-    ImVec2(ap->renderer->get_cam()->position.x, ap->renderer->get_cam()->position.y);
-    ImGui::GetWindowDrawList()->AddCircleFilled(ImVec2(pos.x + offset.x + ap->renderer->get_cam()->position.x, pos.y + offset.y + ap->renderer->get_cam()->position.z), pixels_per_chunk/8.0f, ImColor(255, 255, 255));
+    float scale = (float)pixels_per_chunk / 32;
+    ImGui::GetWindowDrawList()->AddCircleFilled(
+        ImVec2(
+            pos.x + offset.x + ap->renderer->get_cam()->position.x * scale, 
+            pos.y + offset.y + ap->renderer->get_cam()->position.z * scale), 
+        pixels_per_chunk/8.0f, 
+        ImColor(255, 255, 255));
 
     ImGui::End();
 }
@@ -133,6 +160,162 @@ void GUI::draw_screen(unsigned int texture_id) {
     // ImGui::Image((void*)(intptr_t)texture_id, ImVec2(500, 500));
 
     ImGui::End();
+}
+
+#define JC_VORONOI_IMPLEMENTATION
+#include "noise/jc_voronoi.h"
+#include "noise/PoissonGenerator.h"
+#include "noise/valuenoise.h"
+
+#include <stdlib.h>
+#include <algorithm>
+
+void GUI::draw_diagram(AppPanel* ap) {
+
+    // std::vector<float> points;
+    // int CELLSIZE = 500;
+    // const int NUMOCTAVES = 12;
+    // const int ALTITUDE = 8000;
+    // float x = (float)rand();
+    // float z = (float)rand();
+
+    ImGui::Begin("Temperature");
+    ImVec2 canvas_pos = ImGui::GetCursorScreenPos();
+    ImVec2 canvas_size = ImGui::GetContentRegionAvail();
+
+
+    int minVal = *std::min_element(points.begin(), points.end());
+    int maxVal = *std::max_element(points.begin(), points.end());
+    int d = maxVal - minVal;
+
+
+    //CELLSIZE = 512;
+    for (int i = 0; i < CELLSIZE; i++) {
+        for (int j = 0; j < CELLSIZE; j++) {
+            ImU32 col;
+            // if (points[i * CELLSIZE + j] < minVal + d/5) {
+            //     col = IM_COL32(51, 51, 51, 255);
+            // } else if (points[i * CELLSIZE + j] > minVal + d/5 && points[i * CELLSIZE + j] < minVal + (2*(d/5))) {
+            //     col = IM_COL32(102, 102, 102, 255);
+            // } else if (points[i * CELLSIZE + j] > minVal + (2*(d/5)) && points[i * CELLSIZE + j] < minVal +  (3*(d/5))) {
+            //     col = IM_COL32(153, 153, 153, 255);
+            // } else if (points[i * CELLSIZE + j] > minVal + (3*(d/5)) && points[i * CELLSIZE + j] < minVal +  (4*(d/5))) {
+            //     col = IM_COL32(204, 204, 204, 255);
+            // } else {
+            //     col = IM_COL32(255, 255, 255, 255);
+            // }
+
+            if (points[i * CELLSIZE + j] < minVal + d/3) {
+                col = IM_COL32(255, 0, 0, 255);
+            } else if (points[i * CELLSIZE + j] > minVal + d/3 && points[i * CELLSIZE + j] < minVal + 0.6 * d) {
+                col = IM_COL32(0, 255, 0, 255);
+            } else {
+                col = IM_COL32(0, 0, 255, 255);
+            }
+            ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(canvas_pos.x + j, canvas_pos.y + i), ImVec2(canvas_pos.x + j + 1, canvas_pos.y + i + 1), col);
+        }
+    }
+    
+    ImGui::End();
+
+
+
+
+    // ImGui::Begin("Biomy");
+    // ImVec2 canvas_pos1 = ImGui::GetCursorScreenPos();
+    // ImVec2 canvas_size1 = ImGui::GetContentRegionAvail();
+
+    
+    // int minVal1 = *std::min_element(points1.begin(), points1.end());
+    // int maxVal1 = *std::max_element(points1.begin(), points1.end());
+    // int d1 = maxVal1 - minVal1;
+
+    // int min = 0, max = 40;
+
+    // CELLSIZE = 32;
+    // for (int i = 0; i < CELLSIZE; i++) {
+    //     for (int j = 0; j < CELLSIZE; j++) {
+    //         ImU32 col;
+    //         if (points1[i * CELLSIZE + j] < minVal1 + d1/3) {
+    //             col = IM_COL32(50, 50, 50, 255);
+    //         } else if (points1[i * CELLSIZE + j] > minVal1 + d1/3 && points1[i * CELLSIZE + j] < minVal1 + 0.6 * d1) {
+    //             col = IM_COL32(150, 150, 150, 255);
+    //         } else {
+    //             col = IM_COL32(255, 255, 255, 255);
+    //         }
+    //         ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(canvas_pos1.x + j, canvas_pos1.y + i), ImVec2(canvas_pos1.x + j + 1, canvas_pos1.y + i + 1), col);
+    //     }
+    // }
+
+    // ImGui::SliderScalar("NUMOCTAVES", ImGuiDataType_U32, &NUMOCTAVES, &min, &max);
+
+    // if (ImGui::Button("reset")) {
+    //     calc_map(ap);
+    // }
+
+    // ImGui::End();
+
+    // int seed = ap->s_manager->current_scene->get_generator()->seed;
+
+    // PoissonGenerator::DefaultPRNG prng(seed);
+    
+    // std::vector<jcv_point> jvc_points;
+    // for (int i = 1; i < 6; ++i) {
+    //     for (int j = 1; j < 6; ++j) {
+    //         std::vector<PoissonGenerator::Point> chunk = PoissonGenerator::generatePoissonPoints(2, prng, false);
+    //         for (auto p: chunk) {
+    //             p.x += j;
+    //             p.y += i;
+    //             p.x *= 100;
+    //             p.y *= 100;
+    //             //std::cout<<p.x<<" "<<p.y<<"\n";
+    //             jvc_points.push_back({p.x, p.y});
+    //         }
+    //     }
+    // }
+
+    // for (auto p: jvc_points) {
+    //     ImGui::GetWindowDrawList()->AddCircle(ImVec2(p.x + canvas_pos.x, p.y + canvas_pos.y), 5.0f, IM_COL32(255, 0, 0, 255));
+    // }
+
+    // jcv_diagram diagram;
+    // memset(&diagram, 0, sizeof(jcv_diagram));
+    // jcv_diagram_generate(jvc_points.size(), jvc_points.data(), nullptr, nullptr, &diagram);
+
+    // std::vector<std::vector<jcv_point>> voronoi_cells;
+    // const jcv_site* sites = jcv_diagram_get_sites(&diagram);
+
+    // for (int i = 0; i < diagram.numsites; ++i) {
+    //     const jcv_site* site = &sites[i];
+    //     const jcv_graphedge* edge = site->edges;
+    //     std::vector<jcv_point> cell_vertices;
+        
+    //     while (edge) {
+    //         cell_vertices.push_back(edge->pos[0]);
+    //         edge = edge->next;
+    //     }
+    //     voronoi_cells.push_back(cell_vertices);
+    // }
+
+
+    // //ImGui::GetWindowDrawList()->AddRectFilled(canvas_pos, ImVec2(canvas_pos.x + canvas_size.x, canvas_pos.y + canvas_size.y), IM_COL32(30, 30, 30, 255));
+
+    // for (const auto& cell : voronoi_cells) {
+    //     if (cell.empty()) continue;
+
+    //     std::vector<ImVec2> points;
+    //     for (const auto& p : cell) {
+    //         points.push_back(ImVec2(canvas_pos.x + p.x, canvas_pos.y + p.y));
+    //     }
+
+    //     ImGui::GetWindowDrawList()->AddPolyline(points.data(), (int)points.size(), IM_COL32(0, 255, 0, 255), ImDrawFlags_Closed, 2.0f);
+        
+    //     //ImGui::GetWindowDrawList()->AddConvexPolyFilled(points.data(), (int)points.size(), IM_COL32(0, 255, 0, 40));
+
+    // }
+    //     jcv_diagram_free(&diagram);
+
+
 }
 
 void GUI::free_gui() {

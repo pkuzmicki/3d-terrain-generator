@@ -28,8 +28,12 @@ void Renderer::calc_matrix() {
 }
 
 void Renderer::render_scene(Scene &scene) {
-    for (Mesh m : scene.meshes) {;
-        m.draw(shader);
+    // for (Mesh m : scene.meshes) {;
+    //     m.draw(shader);
+    // }
+
+    for (auto& m : scene.get_generator()->active_chunks) {
+        m.second.draw(shader);
     }
 }
 

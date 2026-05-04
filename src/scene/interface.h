@@ -4,6 +4,7 @@
 #define UI_H 
 
 #include <GLFW/glfw3.h>
+#include <vector>
 #include "imgui/imgui.h"
 
 #include "minimap.h"
@@ -18,6 +19,13 @@ private:
     float map_window_size = 512.0f;
     ImVec2 offset = ImVec2(256, 256);
 
+    int NUMOCTAVES = 12;
+    int ALTITUDE = 150;
+    int CELLSIZE;
+    std::vector<int> points;
+    //std::vector<int> points1;
+    void calc_map(AppPanel* ap);
+
 public:
     void init_gui(GLFWwindow* window, AppPanel* ap);
     void free_gui();
@@ -26,6 +34,7 @@ public:
     void draw_screen(unsigned int texture_id);
 
     void draw_minimap(AppPanel* ap);
+    void draw_diagram(AppPanel* ap);
 };
 
 #endif

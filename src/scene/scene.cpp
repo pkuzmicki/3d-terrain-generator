@@ -33,18 +33,16 @@ void TerrainScene::update_scene() {
     }
 }
 
-void TerrainScene::add_chunk(std::pair<int, int> coords) {
-    auto biome_seeds = generate_biome_seeds(coords.first, coords.second, settings.chunk_size, generator.seed);
+void TerrainScene::add_chunk(std::pair<int, int> coords) {    
+    float world_x = (int)(settings.chunk_size-1) * coords.first;
+    float world_z = (int)(settings.chunk_size-1) * coords.second;
 
-    Mesh new_chunk_mesh = generator.generate_value_noise_mesh(
-        biome_seeds,
-        ap->renderer->get_cam()->position.x,
-        ap->renderer->get_cam()->position.z,
-        settings.chunk_size,
-        (settings.chunk_size-1) * coords.first, 
-        (settings.chunk_size-1) * coords.second
+    Mesh new_chunk_mesh = generator.generate_value_noise_mesh( 
+        settings.chunk_size, world_x, world_z
     );
-    
+
+    std::cout<<world_x<<" "<<coords.first<<" "<<settings.chunk_size<<"\n";
+
     generator.active_chunks.emplace(coords, new_chunk_mesh);
     meshes.push_back(new_chunk_mesh);
 

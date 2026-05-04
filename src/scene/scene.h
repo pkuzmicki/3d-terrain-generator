@@ -11,6 +11,7 @@
 #include "render/mesh.h"
 #include "terrain.h"
 #include "minimap.h"
+#include "interface.h"
 
 class AppPanel;
 class MiniMap;
@@ -27,7 +28,6 @@ struct GeneratorSettings {
 
 class Scene {
 public:
-    
     std::vector<Mesh> meshes;
 
     virtual ~Scene() = default;
