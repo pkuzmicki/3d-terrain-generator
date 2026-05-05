@@ -43,12 +43,6 @@
 },
 {
   "directory": "C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build",
-  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/src -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/external -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/external/glm -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/external/glad -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/external/imgui -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\scene\\biome_manager.cpp.obj -c C:\\Users\\Boryss\\Desktop\\3d-generator\\3d-terrain-generator\\src\\scene\\biome_manager.cpp",
-  "file": "C:\\Users\\Boryss\\Desktop\\3d-generator\\3d-terrain-generator\\src\\scene\\biome_manager.cpp",
-  "output": "CMakeFiles\\gardens.dir\\src\\scene\\biome_manager.cpp.obj"
-},
-{
-  "directory": "C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build",
   "command": "C:\\msys64\\mingw64\\bin\\g++.exe -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/src -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/external -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/external/glm -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/external/glad -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/external/imgui -IC:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/external/glfw/include -g -o CMakeFiles\\gardens.dir\\src\\scene\\interface.cpp.obj -c C:\\Users\\Boryss\\Desktop\\3d-generator\\3d-terrain-generator\\src\\scene\\interface.cpp",
   "file": "C:\\Users\\Boryss\\Desktop\\3d-generator\\3d-terrain-generator\\src\\scene\\interface.cpp",
   "output": "CMakeFiles\\gardens.dir\\src\\scene\\interface.cpp.obj"

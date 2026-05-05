@@ -8,15 +8,23 @@
 #include "render/mesh.h"
 #include "core/pairhash.h"
 
+class AppPanel;
+
+enum MAP_MODE {
+    BIOME, 
+    HEIGHT,
+    TEMPERATURE
+};
+
 class MiniMap {
 private:
+    AppPanel* ap;
     std::unordered_map<std::pair<int, int>, unsigned int, PairHash> minimaps_of_all_chunks;
 public:
     MiniMap();
-    const std::unordered_map<std::pair<int, int>, unsigned int, PairHash>& get_minimap();
+    std::unordered_map<std::pair<int, int>, unsigned int, PairHash>& get_minimap();
 
-    void update_map(std::pair<int, int> chunk_coords, Mesh chunk_mesh, int map_size);
-    //void draw_map(unsigned int txt, int pixels_per_chunk, ImVec2 offset, std::pair<int, int> coords);
+    void update_map(std::pair<int, int> chunk_coords, Mesh chunk_mesh, int chunk_size, AppPanel* ap);
 };
 
 #endif 

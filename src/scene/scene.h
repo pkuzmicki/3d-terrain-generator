@@ -10,7 +10,6 @@
 #include "render/camera.h"
 #include "render/mesh.h"
 #include "terrain.h"
-#include "minimap.h"
 #include "interface.h"
 
 class AppPanel;
@@ -22,8 +21,10 @@ struct GeneratorSettings {
     unsigned int numoctaves = 8;
     unsigned int render_distance = 1;
 
-    // const int NUMOCTAVES = 8;
-    // const int ALTITUDE = 100;
+    MAP_MODE mode = MAP_MODE::BIOME;
+
+    unsigned int temp_alt = 3;
+    unsigned int height_alt = 4;
 };
 
 class Scene {

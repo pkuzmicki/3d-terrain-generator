@@ -13,6 +13,8 @@ TerrainScene::TerrainScene(AppPanel* ap) {
 }
 
 void TerrainScene::update_scene() {
+    generator.set_altitudes(settings.temp_alt, settings.height_alt);
+
     int current_chunk_x = std::floor(ap->renderer->get_cam()->position.x / settings.chunk_size);
     int current_chunk_z = std::floor(ap->renderer->get_cam()->position.z / settings.chunk_size);
 
@@ -41,12 +43,10 @@ void TerrainScene::add_chunk(std::pair<int, int> coords) {
         settings.chunk_size, world_x, world_z
     );
 
-    std::cout<<world_x<<" "<<coords.first<<" "<<settings.chunk_size<<"\n";
-
     generator.active_chunks.emplace(coords, new_chunk_mesh);
     meshes.push_back(new_chunk_mesh);
 
-    minimap->update_map(coords, new_chunk_mesh, settings.chunk_size);
+    minimap->update_map(coords, new_chunk_mesh, settings.chunk_size, ap);
 }
 
 Mesh make_cube() {

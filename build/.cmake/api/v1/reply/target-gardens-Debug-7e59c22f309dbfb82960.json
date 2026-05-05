@@ -103,14 +103,13 @@
 				8,
 				9,
 				10,
-				11,
+				12,
 				13,
 				14,
 				15,
 				16,
 				17,
-				18,
-				19
+				18
 			]
 		},
 		{
@@ -150,7 +149,7 @@
 			"language" : "C",
 			"sourceIndexes" : 
 			[
-				12
+				11
 			]
 		}
 	],
@@ -218,8 +217,7 @@
 				15,
 				16,
 				17,
-				18,
-				19
+				18
 			]
 		}
 	],
@@ -265,12 +263,6 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/render/shader.cpp",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"compileGroupIndex" : 0,
-			"path" : "src/scene/biome_manager.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
