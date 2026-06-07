@@ -51,7 +51,7 @@ public:
         }
     }
 
-    void SetValueTable(int table[], const int n) {
+    void SetValueTable(const int* table, const int n) {
         int sum = 0;
         for (int i = 0; i < n; i++) {
             sum += table[i];

@@ -43,6 +43,10 @@ void TerrainScene::add_chunk(std::pair<int, int> coords) {
         settings.chunk_size, world_x, world_z
     );
 
+    // Mesh new_chunk_mesh = generator.generate_value_noise_single_biome_mesh( 
+    //     settings.chunk_size, world_x, world_z
+    // );
+
     generator.active_chunks.emplace(coords, new_chunk_mesh);
     meshes.push_back(new_chunk_mesh);
 

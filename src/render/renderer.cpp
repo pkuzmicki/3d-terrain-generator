@@ -15,7 +15,7 @@ Camera* Renderer::get_cam() {
 }
 
 void Renderer::calc_matrix() {
-    projection = glm::perspective(glm::radians(80.0f), static_cast<float>(AppPanel::getInstance().SCREEN_WIDTH) / static_cast<float>(AppPanel::getInstance().SCREEN_HEIGHT), 0.1f, 500.0f);
+    projection = glm::perspective(glm::radians(80.0f), static_cast<float>(AppPanel::getInstance().SCREEN_WIDTH) / static_cast<float>(AppPanel::getInstance().SCREEN_HEIGHT), 0.1f, 1000.0f);
 
     glm::mat4 model = glm::mat4(1.0f);
     shader.setMat4("model", model);
