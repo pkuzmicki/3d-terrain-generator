@@ -41,6 +41,8 @@ void GUI::draw_gui(AppPanel* ap) {
     ImGui::Begin("Edit Window");
     unsigned int min = 1, max_size = 2500, max_numocataves = 100, max_altitude = 400, max_render_distance = 100;
     unsigned int max_map_alt = 100;
+    float min_float = 1.0f;
+    float max_scale = 1000;
 
     ImGui::SeparatorText("Statistics");
 
@@ -68,10 +70,19 @@ void GUI::draw_gui(AppPanel* ap) {
 
     ImGui::SeparatorText("Minimap Options");
 
-    ImGui::SliderScalar("t alt", ImGuiDataType_U32, &s->temp_alt, &min, &max_map_alt);
-    ImGui::SliderScalar("h alt", ImGuiDataType_U32, &s->height_alt, &min, &max_map_alt);
-
+    if (ImGui::TreeNode("Temperature Map Parameters")) {
+        ImGui::SliderScalar("alt", ImGuiDataType_U32, &s->temp_alt, &min, &max_map_alt);
+        ImGui::SliderFloat("scale", &ap->s_manager->current_scene->get_generator()->TEMP_SCALE, min_float, max_scale);
+        ImGui::TreePop();
+    }
     
+    if (ImGui::TreeNode("Height Map Parameters")){
+        ImGui::SliderScalar("alt", ImGuiDataType_U32, &s->height_alt, &min, &max_map_alt);
+        ImGui::SliderFloat("scale", &ap->s_manager->current_scene->get_generator()->H_SCALE, min_float, max_scale);
+        ImGui::TreePop();
+    }
+
+
     if (ImGui::Button("temp")) s->mode = MAP_MODE::TEMPERATURE;
     ImGui::SameLine();
     if (ImGui::Button("height")) s->mode = MAP_MODE::HEIGHT;

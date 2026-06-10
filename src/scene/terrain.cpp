@@ -234,62 +234,38 @@ float TerrainGenerator::smoothstep(float edge0, float edge1, float x) {
     return val * val * (3.0f - 2.0f * val);
 }
 
-// float TerrainGenerator::get_blend(float h, float t, BIOMES& b1, BIOMES& b2) {
-//     b1 = define_biome(h, t);
-//     b2 = b1;
-
-//     float wh = smoothstep(0.0f, 1.0f, std::abs(h - H_WATER) / BLEND_RANGE);
-//     float wm = smoothstep(0.0f, 1.0f, std::abs(h - H_MOUNT) / BLEND_RANGE);
-//     float wc = smoothstep(0.0f, 1.0f, std::abs(t - T_COLD)  / BLEND_RANGE);
-//     float ww = smoothstep(0.0f, 1.0f, std::abs(t - T_WARM)  / BLEND_RANGE);
-
-//     float w = std::min({wh, wm, wc, ww});
-
-//     if (w >= 1.0f) return 0.0f;
-
-//     float alpha = 1.0f - w;
-
-//     if (wh <= wm && wh <= wc && wh <= ww) {
-//         b1 = define_biome(H_WATER - 0.001f, t);
-//         b2 = define_biome(H_WATER + 0.001f, t);
-//         alpha = smoothstep(H_WATER - BLEND_RANGE, H_WATER + BLEND_RANGE, h);
-//     } else if (wm <= wc && wm <= ww) {
-//         b1 = define_biome(H_MOUNT - 0.001f, t);
-//         b2 = define_biome(H_MOUNT + 0.001f, t);
-//         alpha = smoothstep(H_MOUNT - BLEND_RANGE, H_MOUNT + BLEND_RANGE, h);
-//     } else if (wc <= ww) {
-//         b1 = define_biome(h, T_COLD - 0.001f);
-//         b2 = define_biome(h, T_COLD + 0.001f);
-//         alpha = smoothstep(T_COLD - BLEND_RANGE, T_COLD + BLEND_RANGE, t);
-//     } else {
-//         b1 = define_biome(h, T_WARM - 0.001f);
-//         b2 = define_biome(h, T_WARM + 0.001f);
-//         alpha = smoothstep(T_WARM - BLEND_RANGE, T_WARM + BLEND_RANGE, t);
-//     }
-
-//     return alpha;
-// }
-
 float TerrainGenerator::get_blend(float h, float t, BIOMES& b1, BIOMES& b2) {
     b1 = define_biome(h, t);
     b2 = b1;
 
-    float dist_h = std::min(std::abs(h - H_WATER), std::abs(h - H_MOUNT));
-    float dist_t = std::min(std::abs(t - T_COLD),  std::abs(t - T_WARM));
+    float wh = smoothstep(0.0f, 1.0f, std::abs(h - H_WATER) / BLEND_RANGE);
+    float wm = smoothstep(0.0f, 1.0f, std::abs(h - H_MOUNT) / BLEND_RANGE);
+    float wc = smoothstep(0.0f, 1.0f, std::abs(t - T_COLD)  / BLEND_RANGE);
+    float ww = smoothstep(0.0f, 1.0f, std::abs(t - T_WARM)  / BLEND_RANGE);
 
-    if (dist_h >= BLEND_RANGE && dist_t >= BLEND_RANGE)
-        return 0.0f;
+    float w = std::min({wh, wm, wc, ww});
 
-    if (dist_h < dist_t) {
-        float edge = (std::abs(h - H_WATER) < std::abs(h - H_MOUNT)) ? H_WATER : H_MOUNT;
-        float margin = BLEND_RANGE * (1.0f - dist_t / (dist_t + dist_h + 1e-6f));
-        b1 = define_biome(edge - 0.001f, t);
-        b2 = define_biome(edge + 0.001f, t);
-        return smoothstep(edge - BLEND_RANGE, edge + BLEND_RANGE, h);
+    if (w >= 1.0f) return 0.0f;
+
+    float alpha = 1.0f - w;
+
+    if (wh <= wm && wh <= wc && wh <= ww) {
+        b1 = define_biome(H_WATER - 0.001f, t);
+        b2 = define_biome(H_WATER + 0.001f, t);
+        alpha = smoothstep(H_WATER - BLEND_RANGE, H_WATER + BLEND_RANGE, h);
+    } else if (wm <= wc && wm <= ww) {
+        b1 = define_biome(H_MOUNT - 0.001f, t);
+        b2 = define_biome(H_MOUNT + 0.001f, t);
+        alpha = smoothstep(H_MOUNT - BLEND_RANGE, H_MOUNT + BLEND_RANGE, h);
+    } else if (wc <= ww) {
+        b1 = define_biome(h, T_COLD - 0.001f);
+        b2 = define_biome(h, T_COLD + 0.001f);
+        alpha = smoothstep(T_COLD - BLEND_RANGE, T_COLD + BLEND_RANGE, t);
     } else {
-        float edge = (std::abs(t - T_COLD) < std::abs(t - T_WARM)) ? T_COLD : T_WARM;
-        b1 = define_biome(h, edge - 0.001f);
-        b2 = define_biome(h, edge + 0.001f);
-        return smoothstep(edge - BLEND_RANGE, edge + BLEND_RANGE, t);
+        b1 = define_biome(h, T_WARM - 0.001f);
+        b2 = define_biome(h, T_WARM + 0.001f);
+        alpha = smoothstep(T_WARM - BLEND_RANGE, T_WARM + BLEND_RANGE, t);
     }
+
+    return alpha;
 }

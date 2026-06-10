@@ -23,8 +23,16 @@ struct GeneratorSettings {
 
     MAP_MODE mode = MAP_MODE::BIOME;
 
-    unsigned int temp_alt = 4;
+    unsigned int temp_alt = 3;
     unsigned int height_alt = 10;
+
+
+    const float TEMP_OFFSET = 100.0f; // offset bo korzystamy tylko z jednego szumu
+    const float TEMP_SCALE = 512.0f;
+    const float H_OFFSET = -100.0f;
+    const float H_SCALE = 128.0f;
+    const float TERRAIN_SCALE = 256.0f;
+
 
     bool is_in_single_biome_mode = false;
     unsigned int biome_index = 0;

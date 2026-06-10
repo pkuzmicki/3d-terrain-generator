@@ -7,17 +7,11 @@
 #include "noise/valuenoise.h"
 #include "render/mesh.h"
 
-const float TEMP_OFFSET = 44444.0f; // offset bo korzystamy tylko z jednego szumu
-const float TEMP_SCALE = 512.0f;
-const float H_OFFSET = -44444.0f;
-const float H_SCALE = 128.0f;
-const float TERRAIN_SCALE = 256.0f;
-
 const float H_WATER = 0.33f;
 const float H_MOUNT = 0.66f;
 const float T_COLD  = 0.33f;
 const float T_WARM  = 0.66f;
-const float BLEND_RANGE = 0.1f;
+const float BLEND_RANGE = 0.05f;
 
 // const int utah_points = 31;
 // const int utah_distribution[utah_points] = {
@@ -113,6 +107,12 @@ struct TerrainGenerator {
 
     int t_alt;
     int h_alt;
+
+    float TEMP_OFFSET = 100.0f; // offset bo korzystamy tylko z jednego szumu
+    float H_OFFSET = -100.0f;
+    float TEMP_SCALE = 512.0f;
+    float H_SCALE = 128.0f;
+    float TERRAIN_SCALE = 256.0f;
 
     Mesh* terrain_mesh;
     //static ValueNoiseGeneration v;
