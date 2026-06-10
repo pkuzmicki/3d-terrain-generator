@@ -7,6 +7,18 @@
 
 #include <string>
 
+static void HelpMarker(const char* desc)
+{
+    ImGui::TextDisabled("(?)");
+    if (ImGui::BeginItemTooltip())
+    {
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+        ImGui::TextUnformatted(desc);
+        ImGui::PopTextWrapPos();
+        ImGui::EndTooltip();
+    }
+}
+
 void GUI::init_gui(GLFWwindow* window, AppPanel* ap) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -27,18 +39,10 @@ void GUI::draw_gui(AppPanel* ap) {
     //ImGui::ShowDemoWindow();
 
     ImGui::Begin("Edit Window");
+    unsigned int min = 1, max_size = 2500, max_numocataves = 100, max_altitude = 400, max_render_distance = 100;
+    unsigned int max_map_alt = 100;
 
-    unsigned int min = 1, max_size = 2500, max_numocataves = 17, max_altitude = 100, max_render_distance = 100;
-    // ImGui::SliderScalar("NUMOCTAVES", ImGuiDataType_U32, &settings->numoctaves, &min, &max_numocataves);
-    // ImGui::SliderScalar("ALTITUDE", ImGuiDataType_U32, &settings->altitude, &min, &max_altitude);
-
-    ImGui::SliderScalar("distance", ImGuiDataType_U32, &s->render_distance, &min, &max_render_distance);
-    
-    if (ImGui::Button("temperature")) s->mode = MAP_MODE::TEMPERATURE;
-    ImGui::SameLine();
-    if (ImGui::Button("height")) s->mode = MAP_MODE::HEIGHT;
-    ImGui::SameLine();
-    if (ImGui::Button("biomes")) s->mode = MAP_MODE::BIOME;
+    ImGui::SeparatorText("Statistics");
 
     std::string coords;
     ImGui::Text("Chunk: ");
@@ -62,12 +66,48 @@ void GUI::draw_gui(AppPanel* ap) {
     ImGui::SameLine();
     ImGui::Text(biome_names[ap->s_manager->current_scene->get_generator()->get_current_biome(ap->renderer->get_cam()->position.x, ap->renderer->get_cam()->position.z)]);
 
-    ImGui::SliderScalar("t alt", ImGuiDataType_U32, &s->temp_alt, &min, &max_altitude);
-    ImGui::SliderScalar("h alt", ImGuiDataType_U32, &s->height_alt, &min, &max_altitude);
+    ImGui::SeparatorText("Minimap Options");
+
+    ImGui::SliderScalar("t alt", ImGuiDataType_U32, &s->temp_alt, &min, &max_map_alt);
+    ImGui::SliderScalar("h alt", ImGuiDataType_U32, &s->height_alt, &min, &max_map_alt);
+
+    
+    if (ImGui::Button("temp")) s->mode = MAP_MODE::TEMPERATURE;
+    ImGui::SameLine();
+    if (ImGui::Button("height")) s->mode = MAP_MODE::HEIGHT;
+    ImGui::SameLine();
+    if (ImGui::Button("biome")) s->mode = MAP_MODE::BIOME;
+
+    ImGui::SeparatorText("Biome Parameters Edit");
+
+    ImGui::Checkbox("single biome mode", &s->is_in_single_biome_mode);
+
+    const char* items[] = { "PLAINS", "MOUNTAIS", "WATER", "DESERT", "MESA", "WARM_WATER", "SNOW", "ICEBEARG", "COLD_WATER"};
+    static int item_current = 0;
+    ImGui::Combo("biomes", &item_current, items, IM_ARRAYSIZE(items));
+    s->biome_index = item_current;
+
+    int min_water_alt = -400; int max_water_alt = 0;
+    if (item_current == 2 || item_current == 5 || item_current == 8){
+        ImGui::SliderScalar("biome altitude", ImGuiDataType_S32, &ap->s_manager->current_scene->get_generator()->biome_values[item_current].altitude, &min_water_alt, &max_water_alt);
+    } else {
+        ImGui::SliderScalar("biome altitude", ImGuiDataType_U32, &ap->s_manager->current_scene->get_generator()->biome_values[item_current].altitude, &min, &max_altitude);
+    }
+    ImGui::SameLine(); HelpMarker("Ctrl+Click to input value.");
 
 
-    if (ImGui::Button("reset")) {
-        ap->s_manager->current_scene->meshes.clear();
+    ImGui::SliderScalar("biome numoctaves", ImGuiDataType_U32, &ap->s_manager->current_scene->get_generator()->biome_values[item_current].numoctaves, &min, &max_numocataves);
+
+    ImGui::SeparatorText("General Options");
+
+    ImGui::SliderScalar("distance", ImGuiDataType_U32, &s->render_distance, &min, &max_render_distance);
+
+    ImGui::Checkbox("use light", &s->use_light);
+    ap->renderer->get_shader().use();
+    ap->renderer->get_shader().setBool("useLight", s->use_light);
+
+    if (ImGui::Button("update")) {
+        //ap->s_manager->current_scene->meshes.clear();
         ap->s_manager->current_scene->get_generator()->active_chunks.clear();\
         minimap->get_minimap().clear();
     }
@@ -79,9 +119,6 @@ void GUI::draw_gui(AppPanel* ap) {
     draw_minimap(ap);
     draw_diagram(ap);
 
-
-
-
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
@@ -92,6 +129,7 @@ void GUI::draw_minimap(AppPanel* ap) {
     
     ImVec2 pos = ImGui::GetCursorScreenPos();
 
+    //przybliżanie/oddalanie mapy
     if (ImGui::IsWindowHovered()) {
         float scroll = ImGui::GetIO().MouseWheel;
         if (scroll != 0) {
@@ -101,6 +139,7 @@ void GUI::draw_minimap(AppPanel* ap) {
         }
     }
 
+    //przeciaganie mapy
     ImGui::InvisibleButton("drag", size);
     if (ImGui::IsItemActive() && ImGui::IsMouseDragging(0)) {
         ImVec2 delta = ImGui::GetIO().MouseDelta;
@@ -110,7 +149,7 @@ void GUI::draw_minimap(AppPanel* ap) {
 
     for (auto [coords, txt] : minimap->get_minimap()) {
         ImVec2 map_pos(pos.x + offset.x + pixels_per_chunk * coords.first, pos.y + offset.y + pixels_per_chunk * coords.second);
-        //ImGui::GetWindowDrawList()->AddImage((ImTextureID)txt, map_pos, ImVec2(map_pos.x + pixels_per_chunk, map_pos.y + pixels_per_chunk), ImVec2(1, 1), ImVec2(0, 0));
+        ImGui::GetWindowDrawList()->AddImage((ImTextureID)txt, map_pos, ImVec2(map_pos.x + pixels_per_chunk, map_pos.y + pixels_per_chunk), ImVec2(1, 1), ImVec2(0, 0));
         ImGui::GetWindowDrawList()->AddImageQuad(
             (ImTextureID)txt, 
             map_pos, 
@@ -127,7 +166,8 @@ void GUI::draw_minimap(AppPanel* ap) {
             pos.x + offset.x + ap->renderer->get_cam()->position.x * scale, 
             pos.y + offset.y + ap->renderer->get_cam()->position.z * scale), 
         pixels_per_chunk/8.0f, 
-        ImColor(255, 255, 255));
+        ImColor(255, 255, 255)
+    );
 
     ImGui::End();
 }

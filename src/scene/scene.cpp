@@ -1,5 +1,8 @@
 #include "scene.h"
 
+#include <unordered_set>
+#include <utility>
+
 Mesh make_cube();
 
 void Scene::update_scene() {}
@@ -9,7 +12,7 @@ void Scene::add_chunk(std::pair<int, int> coords) {}
 TerrainScene::TerrainScene(AppPanel* ap) {
     this->ap = ap;
     this->minimap = ap->minimap;
-    meshes.push_back(make_cube());
+    //meshes.push_back(make_cube());
 }
 
 void TerrainScene::update_scene() {
@@ -25,13 +28,29 @@ void TerrainScene::update_scene() {
 
     int render_distance = settings.render_distance;
 
+    std::unordered_set<std::pair<int,int>, PairHash> new_chunks;
+
     for (int i = coords.first-render_distance; i <= coords.first+render_distance; i++) {
         for (int j = coords.second-render_distance; j <= coords.second+render_distance; j++) {
-            auto iterator = generator.active_chunks.find(std::make_pair(i, j));
-            if (iterator == generator.active_chunks.end()) {
-                add_chunk(std::make_pair(i, j)); 
+            new_chunks.emplace(i, j);
+
+            if (generator.active_chunks.find({i, j}) == generator.active_chunks.end()) {
+                add_chunk({i, j});
             }
+
+            // auto iterator = generator.active_chunks.find(std::make_pair(i, j));
+            // if (iterator == generator.active_chunks.end()) {
+            //     add_chunk(std::make_pair(i, j)); 
+            // }
         } 
+    }
+
+    for (auto iterator = generator.active_chunks.begin(); iterator != generator.active_chunks.end();) {
+        if (new_chunks.find(iterator->first) == new_chunks.end()) {
+            iterator = generator.active_chunks.erase(iterator);
+        } else {
+            iterator++;
+        }
     }
 }
 
@@ -39,16 +58,12 @@ void TerrainScene::add_chunk(std::pair<int, int> coords) {
     float world_x = (int)(settings.chunk_size-1) * coords.first;
     float world_z = (int)(settings.chunk_size-1) * coords.second;
 
-    Mesh new_chunk_mesh = generator.generate_value_noise_mesh( 
-        settings.chunk_size, world_x, world_z
-    );
-
-    // Mesh new_chunk_mesh = generator.generate_value_noise_single_biome_mesh( 
-    //     settings.chunk_size, world_x, world_z
-    // );
+    Mesh new_chunk_mesh = (settings.is_in_single_biome_mode) ? 
+        generator.generate_value_noise_single_biome_mesh(settings.chunk_size, world_x, world_z, settings.biome_index): 
+        generator.generate_value_noise_mesh(settings.chunk_size, world_x, world_z);
 
     generator.active_chunks.emplace(coords, new_chunk_mesh);
-    meshes.push_back(new_chunk_mesh);
+    //meshes.push_back(new_chunk_mesh);
 
     minimap->update_map(coords, new_chunk_mesh, settings.chunk_size, ap);
 }

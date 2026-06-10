@@ -13,6 +13,10 @@ struct Vertex {
     glm::vec3 postion;
     glm::vec3 normal;
     glm::vec2 txt_coords;
+
+    float biome1;
+    float biome2;
+    float blend_alpha;
 };
 
 struct Texture {

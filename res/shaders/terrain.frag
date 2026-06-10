@@ -1,36 +1,36 @@
 #version 330 core
+
 out vec4 FragColor;
 
-in vec2 TexCoord;
-
+in vec3 FragPosition;
+in vec3 vNormal;
+in vec2 txtCoord;
 in float height;
+in vec3 vBiomeColor;
+
+in vec3 vColor1;
+in vec3 vColor2;
+in float vAlpha;
 
 uniform sampler2D texture_diffuse1;
-uniform bool useTexture;
+
+uniform bool useLight;
 
 void main() {
+    vec3 light_pos = vec3(0.0, 500.0, 0.0);
+    vec3 light_color = vec3(1.0, 1.0, 1.0);
+    float ambient_strength = 0.3;
+    vec3 ambient = ambient_strength * light_color;
 
-    float h = clamp((height) / (100.0), 0.0, 1.0);
+    vec3 n = normalize(vNormal);
+    vec3 light_dir = normalize(light_pos - FragPosition);
+    float d = max(dot(n, light_dir), 0.0);
+    vec3 diffuse = d * light_color;
 
-    vec3 darkGreen  = vec3(0.0, 0.1, 0.0);
-    vec3 lightGreen = vec3(0.9, 1.0, 0.9);
+    //float a = smoothstep(0.0, 1.0, vAlpha);
+    //vec3 c = (ambient + diffuse) * mix(vColor1, vColor2, a);
 
-    vec3 c;
-
-    // if (h > 0.5) c = mix(mix(lightGreen, darkGreen, clamp(h, 0.0, 1.0)), mix(vec3(0.9, 1.0, 1.0), vec3(0.75, 0.75, 0.8), clamp(h, 0.0, 1.0)), h);
-    // else mix(darkGreen, vec3(0.0, 0.45, 0.75), clamp(h, 0.0, 1.0));
-
-    //c = mix(mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), clamp(h, 0.2, 1.0)), mix(vec3(0.0, 1.0, 0.0), vec3(0.0, 0.0, 1.0), clamp(h, 0.2, 1.0)), h);
-    //c = mix(mix(vec3(0.0, 0.0, 1.0), vec3(0.0, 1.0, 0.0), clamp(h, 0.2, 1.0)), mix(vec3(0.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0), clamp(h, 0.2, 1.0)), h);
-
-    c = mix(mix(mix(vec3(0.0, 0.0, 0.7), vec3(0.0, 0.0, 1.0), clamp(h, 0.0, 1.0)), vec3(0.0, 0.7, 0.0), step(0.2, h)), mix(vec3(0.0, 1.0, 0.0), vec3(1.0, 0.0, 0.0), clamp(h, 0.2, 1.0)), h);
-
+    vec3 color = useLight ? vBiomeColor * (ambient + diffuse) : vBiomeColor;
     
-    // if (h > 0.8) c = mix(vec3(0.9, 1.0, 1.0), vec3(0.75, 0.75, 0.8), clamp(h, 0.0, 1.0));
-    // else if (h < 0.8 && h > 0.4) c = mix(lightGreen, darkGreen, clamp(h, 0.0, 1.0));
-    // else mix(darkGreen, vec3(0.0, 0.45, 0.75), clamp(h, 0.0, 1.0));
-
-    vec3 color = useTexture ? texture(texture_diffuse1, TexCoord).rgb : c;
-
     FragColor = vec4(color, 1.0);
 }

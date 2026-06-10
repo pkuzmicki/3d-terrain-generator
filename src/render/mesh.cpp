@@ -31,33 +31,20 @@ void Mesh::setup_mesh() {
     
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, txt_coords));
+
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, biome1));
+    
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, biome2));
+    
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*) offsetof(Vertex, blend_alpha));
     
     glBindVertexArray(0);
 }
 
 void Mesh::draw(Shader &shader) {
-    if (textures.empty()) {
-        shader.setBool("useTexture", false);
-    } else {
-        shader.setBool("useTexture", true);
-
-        // unsigned int diffuse_nr = 1;
-        // unsigned int specular_nr = 1;
-        // for (unsigned int i = 0; i < textures.size(); i++) {
-        //     glActiveTexture(GL_TEXTURE0 + i);
-        //     std::string number;
-        //     std::string name = textures[i].type;
-
-        //     if (name == "texture_diffuse")
-        //         number = std::to_string(specular_nr++);
-        //     else
-        //         number = std::to_string(specular_nr++);
-
-        //     shader.setInt(("material." + name + number).c_str(), i);
-        //     glBindTexture(GL_TEXTURE_2D, textures[i].id);
-        // }
-        // glActiveTexture(GL_TEXTURE0);
-    }
 
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

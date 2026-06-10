@@ -23,13 +23,18 @@ struct GeneratorSettings {
 
     MAP_MODE mode = MAP_MODE::BIOME;
 
-    unsigned int temp_alt = 3;
-    unsigned int height_alt = 4;
+    unsigned int temp_alt = 4;
+    unsigned int height_alt = 10;
+
+    bool is_in_single_biome_mode = false;
+    unsigned int biome_index = 0;
+
+    bool use_light = true;
 };
 
 class Scene {
 public:
-    std::vector<Mesh> meshes;
+    //std::vector<Mesh> meshes;
 
     virtual ~Scene() = default;
     

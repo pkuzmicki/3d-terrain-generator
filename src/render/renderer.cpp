@@ -7,7 +7,7 @@
 #include "render/camera.h"
 
 Renderer::Renderer() {
-    main_camera = new Camera(glm::vec3(0.0f, 0.0f, 3.0f));
+    main_camera = new Camera(glm::vec3(0.0f, 100.0f, 0.0f));
 }
 
 Camera* Renderer::get_cam() {
@@ -28,17 +28,15 @@ void Renderer::calc_matrix() {
 }
 
 void Renderer::render_scene(Scene &scene) {
-    // for (Mesh m : scene.meshes) {;
-    //     m.draw(shader);
-    // }
-
     for (auto& m : scene.get_generator()->active_chunks) {
         m.second.draw(shader);
     }
+    //std::cout<<scene.get_generator()->active_chunks.size()<<"\n";
 }
 
 void Renderer::frame_begin() {
-    glClearColor(0.2f, 0.80f, 0.80f, 1.0f);
+    //glClearColor(0.16f, 0.66f, 0.92f, 1.0f);
+    glClearColor(0.51f, 0.78f, 0.95f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     shader.use();
     calc_matrix();

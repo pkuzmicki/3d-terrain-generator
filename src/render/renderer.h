@@ -29,6 +29,8 @@ public:
     void create_framebuffer();
     void bind_framebuffer();
     void unbind_framebuffer();
+
+    Shader get_shader() {return shader;}
 };
 
 #endif

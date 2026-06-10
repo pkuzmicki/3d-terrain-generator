@@ -6,7 +6,6 @@
 #include <chrono>
 #include <algorithm>
 
-//ValueNoiseGeneration TerrainGenerator::v;
 ValueNoiseGeneration TerrainGenerator::v_biomes[10];
 
 TerrainGenerator::TerrainGenerator() {
@@ -25,23 +24,38 @@ void TerrainGenerator::init_value_noise() {
     z = (float)rand();
 
     v_biomes[BIOMES::COUNT].Initialize();
-    v_biomes[BIOMES::COUNT].SetValueTable(flat_distribution, flat_points);  
+    v_biomes[BIOMES::COUNT].SetValueTable(everest_distribution, everest_points);  
 
     v_biomes[BIOMES::PLAINS].Initialize();
-    v_biomes[BIOMES::PLAINS].SetValueTable(plains_distribution, plains_points);  
+    v_biomes[BIOMES::PLAINS].SetValueTable(stepy_distribution, stepy_points);  
 
     v_biomes[BIOMES::MOUNTAIS].Initialize();
-    v_biomes[BIOMES::MOUNTAIS].SetValueTable(alps_distribution, alps_points);  
+    v_biomes[BIOMES::MOUNTAIS].SetValueTable(everest_distribution, everest_points);    
+
+    v_biomes[BIOMES::WATER].Initialize();
+    v_biomes[BIOMES::WATER].SetValueTable(baltyk_distribution, baltyk_points);
+
+    v_biomes[BIOMES::SNOW].Initialize();
+    v_biomes[BIOMES::SNOW].SetValueTable(snow_distribution, snow_points);
+
+    v_biomes[BIOMES::ICEBEARG].Initialize();
+    v_biomes[BIOMES::ICEBEARG].SetValueTable(fiordy_distribution, fiordy_points);
+
+    v_biomes[BIOMES::COLD_WATER].Initialize();
+    v_biomes[BIOMES::COLD_WATER].SetValueTable(norweskie_distribution, norweskie_points);
+
+    v_biomes[BIOMES::DESERT].Initialize();
+    v_biomes[BIOMES::DESERT].SetValueTable(sahara_distribution, sahara_points);
+
+    v_biomes[BIOMES::MESA].Initialize();
+    v_biomes[BIOMES::MESA].SetValueTable(canyon_distribution, canyon_points);
+
+    v_biomes[BIOMES::WARM_WATER].Initialize();
+    v_biomes[BIOMES::WARM_WATER].SetValueTable(srodziemne_distribution, srodziemne_points);
 }
 
 Mesh TerrainGenerator::generate_value_noise_mesh(unsigned int chunk_size, int offset_x, int offset_z) {
     std::vector<Vertex> positions(chunk_size*chunk_size);
-
-    const float BLEND_RANGE = 0.1f;
-    const float H_WATER = 0.33f;
-    const float H_MOUNT = 0.66f;
-    const float T_COLD  = 0.33f;
-    const float T_WARM  = 0.66f;
 
     for (int i = 0; i < chunk_size; i++) {
         for (int j = 0; j < chunk_size; j++) {
@@ -55,11 +69,6 @@ Mesh TerrainGenerator::generate_value_noise_mesh(unsigned int chunk_size, int of
             BIOMES b1, b2;
             float alpha = get_blend(h, t, b1, b2);
 
-            // float h1 = biome_values[b1].altitude * get_point_height(global_x, global_z, biome_values[b1].numoctaves, TERRAIN_SCALE, 0.0f);
-            // float h2 = biome_values[b2].altitude * get_point_height(global_x, global_z, biome_values[b2].numoctaves, TERRAIN_SCALE, 0.0f);
-            //float h1 = 50.0f * get_point_height(global_x, global_z, 8.0f, TERRAIN_SCALE, 0.0f);
-            //float h2 = 50.0f * get_point_height(global_x, global_z, 8.0f, TERRAIN_SCALE, 0.0f);
-            //obciaza i nie dziala
             float h1 = get_point_height_for_biome(global_x, global_z, b1);
             float h2 = get_point_height_for_biome(global_x, global_z, b2);
           
@@ -70,8 +79,29 @@ Mesh TerrainGenerator::generate_value_noise_mesh(unsigned int chunk_size, int of
             positions[index].postion.x = global_x;
             positions[index].postion.y = height;
             positions[index].postion.z = global_z;
+
+            positions[index].biome1 = (float)b1;
+            positions[index].biome2 = (float)b2;
+            positions[index].blend_alpha = alpha;
         }
     }
+
+    for (int i = 0; i < chunk_size; i++) {
+        for (int j = 0; j < chunk_size; j++) {
+            int idx = i * chunk_size + j;
+
+            int left  = std::clamp(i - 1, 0, (int)chunk_size - 1) * chunk_size + j;
+            int right = std::clamp(i + 1, 0, (int)chunk_size - 1) * chunk_size + j;
+            int down  = i * chunk_size + std::clamp(j - 1, 0, (int)chunk_size - 1);
+            int up    = i * chunk_size + std::clamp(j + 1, 0, (int)chunk_size - 1);
+
+            glm::vec3 dx = positions[right].postion - positions[left].postion;
+            glm::vec3 dz = positions[up].postion    - positions[down].postion;
+
+            positions[idx].normal = glm::normalize(glm::cross(dz, dx));
+        }
+    }
+
 
     int indices_count = chunk_size - 1;
     std::vector<unsigned int> indices(indices_count * indices_count * 6);
@@ -97,22 +127,72 @@ Mesh TerrainGenerator::generate_value_noise_mesh(unsigned int chunk_size, int of
     return Mesh(positions, indices, {});
 }
 
-// float TerrainGenerator::get_point_height_for_biome(float x, float z, BIOMES b) {
-//     float global_x = x / TERRAIN_SCALE;
-//     float global_z = z / TERRAIN_SCALE;
-//     float height = v_biomes[b].GetHeight(global_x, global_z, 0.5f, 2.0f, biome_values[b].numoctaves);
-//     return biome_values[b].altitude * height;
-// }
+Mesh TerrainGenerator::generate_value_noise_single_biome_mesh(unsigned int chunk_size, int offset_x, int offset_z, unsigned int biome_index) {
+    std::vector<Vertex> positions(chunk_size*chunk_size);
+    std::vector<float> heights(chunk_size*chunk_size);
 
-// float TerrainGenerator::get_point_height(float x, float z, unsigned int numoctaves, float scale, float offset) {
-//     float global_x = x / scale + offset;
-//     float global_z = z / scale + offset;
+    for (int i = 0; i < chunk_size; i++) {
+        for (int j = 0; j < chunk_size; j++) {
 
-//     //float height = v.GetHeight(global_x, global_z, 0.5f, 2.0f, numoctaves);
-//     float height = v_biomes[BIOMES::PLAINS].GetHeight(global_x, global_z, 0.5f, 2.0f, numoctaves);
-//     //std::cout<<height<<"\n";
-//     return height;
-// }
+            float global_x = offset_x + i;
+            float global_z = offset_z + j;
+
+            BIOMES b = (biome_index < 10) ? (BIOMES)biome_index : BIOMES::PLAINS;
+
+            //float height = biome_values[b].altitude * get_point_height(global_x, global_z, biome_values[b].numoctaves, TERRAIN_SCALE, 0.0f);
+            float height = get_point_height_for_biome(global_x, global_z, b);
+
+            int index = i * chunk_size + j;
+
+            positions[index].postion.x = global_x;
+            positions[index].postion.y = height;
+            positions[index].postion.z = global_z;
+
+            positions[index].biome1 = (float)b;
+            positions[index].biome2 = (float)b;
+        }
+    }
+
+    for (int i = 0; i < chunk_size; i++) {
+        for (int j = 0; j < chunk_size; j++) {
+            int idx = i * chunk_size + j;
+
+            int left  = std::clamp(i - 1, 0, (int)chunk_size - 1) * chunk_size + j;
+            int right = std::clamp(i + 1, 0, (int)chunk_size - 1) * chunk_size + j;
+            int down  = i * chunk_size + std::clamp(j - 1, 0, (int)chunk_size - 1);
+            int up    = i * chunk_size + std::clamp(j + 1, 0, (int)chunk_size - 1);
+
+            glm::vec3 dx = positions[right].postion - positions[left].postion;
+            glm::vec3 dz = positions[up].postion    - positions[down].postion;
+
+            positions[idx].normal = glm::normalize(glm::cross(dz, dx));
+        }
+    }
+
+    int indices_count = chunk_size - 1;
+    std::vector<unsigned int> indices(indices_count * indices_count * 6);
+    int idx = 0;
+
+    for (int z = 0; z < indices_count; z++) {
+        for (int x = 0; x < indices_count; x++) {
+
+            int topLeft = z * chunk_size + x;
+            int topRight = z * chunk_size + x + 1;
+            int bottomLeft = (z + 1) * chunk_size + x;
+            int bottomRight = (z + 1) * chunk_size + x + 1;
+
+            indices[idx++] = topLeft;
+            indices[idx++] = bottomLeft;
+            indices[idx++] = topRight;
+
+            indices[idx++] = topRight;
+            indices[idx++] = bottomLeft;
+            indices[idx++] = bottomRight;
+        }
+    }
+
+    return Mesh(positions, indices, {});
+}
 
 float TerrainGenerator::get_point_height(float x, float z, unsigned int numoctaves, float scale, float offset) {
     float global_x = x / scale + offset;
@@ -149,148 +229,67 @@ BIOMES TerrainGenerator::get_current_biome(float x, float z) {
     return define_biome(h, t);
 }
 
-float TerrainGenerator::get_blend(float h, float t, BIOMES& b1, BIOMES& b2) {
-
-    float dist_h_water = std::abs(h - H_WATER);
-    float dist_h_mount = std::abs(h - H_MOUNT);
-    float dist_t_cold  = std::abs(t - T_COLD);
-    float dist_t_warm  = std::abs(t - T_WARM);
-
-    float min_h = std::min(dist_h_water, dist_h_mount);
-    float min_t = std::min(dist_t_cold,  dist_t_warm);
-    float closest_dist = std::min(min_h, min_t);
-
-    b1 = define_biome(h, t);
-
-    if (closest_dist > BLEND_RANGE) {
-        b2 = b1;
-        return 0.0f;
-    }
-
-    float signed_dist;
-    if (min_h < min_t) {
-        float nearest_h = (dist_h_water < dist_h_mount) ? H_WATER : H_MOUNT;
-        b1 = define_biome(nearest_h - 0.01f, t);
-        b2 = define_biome(nearest_h + 0.01f, t);
-        signed_dist = h - nearest_h;
-    } else {
-        float nearest_t = (dist_t_cold < dist_t_warm) ? T_COLD : T_WARM;
-        b1 = define_biome(h, nearest_t - 0.01f);
-        b2 = define_biome(h, nearest_t + 0.01f);
-        signed_dist = t - nearest_t;
-    }
-
-    float range = BLEND_RANGE * blend_strength[b1][b2];
-    float alpha = (signed_dist / BLEND_RANGE) * 0.5f + 0.5f;
-    return std::clamp(alpha, 0.0f, 1.0f);
+float TerrainGenerator::smoothstep(float edge0, float edge1, float x) {
+    float val = std::clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
+    return val * val * (3.0f - 2.0f * val);
 }
 
-Mesh TerrainGenerator::generate_value_noise_single_biome_mesh(unsigned int chunk_size, int offset_x, int offset_z) {
-    std::vector<Vertex> positions(chunk_size*chunk_size);
-    std::vector<float> heights(chunk_size*chunk_size);
+// float TerrainGenerator::get_blend(float h, float t, BIOMES& b1, BIOMES& b2) {
+//     b1 = define_biome(h, t);
+//     b2 = b1;
 
-    for (int i = 0; i < chunk_size; i++) {
-        for (int j = 0; j < chunk_size; j++) {
+//     float wh = smoothstep(0.0f, 1.0f, std::abs(h - H_WATER) / BLEND_RANGE);
+//     float wm = smoothstep(0.0f, 1.0f, std::abs(h - H_MOUNT) / BLEND_RANGE);
+//     float wc = smoothstep(0.0f, 1.0f, std::abs(t - T_COLD)  / BLEND_RANGE);
+//     float ww = smoothstep(0.0f, 1.0f, std::abs(t - T_WARM)  / BLEND_RANGE);
 
-            float global_x = offset_x + i;
-            float global_z = offset_z + j;
+//     float w = std::min({wh, wm, wc, ww});
 
-            // float t = get_point_height(global_x, global_z, 3, TEMP_SCALE, TEMP_OFFSET);
-            // float h = get_point_height(global_x, global_z, 4, H_SCALE, H_OFFSET);
-            // BIOMES b = define_biome(h, t);
+//     if (w >= 1.0f) return 0.0f;
 
-           // float height = biome_values[b].altitude * get_point_height(global_x, global_z, biome_values[b].numoctaves, TERRAIN_SCALE, 0.0f);
+//     float alpha = 1.0f - w;
 
-            float height = 5.f * get_point_height(global_x, global_z, 8, 256.f, 0.f);
-
-            int index = i * chunk_size + j;
-
-            positions[index].postion.x = global_x;
-            positions[index].postion.y = height;
-            positions[index].postion.z = global_z;
-        }
-    }
-
-    int indices_count = chunk_size - 1;
-    std::vector<unsigned int> indices(indices_count * indices_count * 6);
-    int idx = 0;
-
-    for (int z = 0; z < indices_count; z++) {
-        for (int x = 0; x < indices_count; x++) {
-
-            int topLeft = z * chunk_size + x;
-            int topRight = z * chunk_size + x + 1;
-            int bottomLeft = (z + 1) * chunk_size + x;
-            int bottomRight = (z + 1) * chunk_size + x + 1;
-
-            indices[idx++] = topLeft;
-            indices[idx++] = bottomLeft;
-            indices[idx++] = topRight;
-
-            indices[idx++] = topRight;
-            indices[idx++] = bottomLeft;
-            indices[idx++] = bottomRight;
-        }
-    }
-
-    return Mesh(positions, indices, {});
-}
-
-// Mesh TerrainGenerator::generate_value_noise_mesh(
-//     std::vector<BiomeSeed> seeds,
-//     int camera_x,
-//     int camera_z,
-//     unsigned int chunk_size, 
-//     int offset_x, 
-//     int offset_z
-// ) {
-//     //float scale = 256.0f;
-
-//     std::vector<Vertex> positions(chunk_size*chunk_size);
-//     std::vector<float> heights(chunk_size*chunk_size);
-
-//     for (int i = 0; i < chunk_size; i++) {
-//         for (int j = 0; j < chunk_size; j++) {
-
-//             float global_x = offset_x + i;
-//             float global_z = offset_z + j;
-
-//             // BIOMES current_biome = get_biome(global_x, global_z, seeds);
-//             // Biome biome = biome_values[current_biome];
-//             // BlendedBiome biome = get_blended_biome(global_x, global_z, seeds);
-
-
-//             // float height = (biome.altitude * v.GetHeight(
-//             //     global_x / biome.scale, 
-//             //     global_z / biome.scale, 
-//             //     0.5f, 
-//             //     2.0f,
-//             //     biome.numoctaves
-//             // ));
-
-//             //TODO poprawic biomy
-//             BiomeBlend blend = get_biome_blend(global_x, global_z, seeds);
-//             Biome b1 = biome_values[blend.nearest->biome];
-//             Biome b2 = biome_values[blend.second->biome];
-
-//             float h1 = b1.altitude * v.GetHeight(
-//                 global_x / b1.scale,
-//                 global_z / b1.scale,
-//                 0.5f, 2.0f, b1.numoctaves
-//             );
-//             float h2 = b2.altitude * v.GetHeight(
-//                 global_x / b2.scale,
-//                 global_z / b2.scale,
-//                 0.5f, 2.0f, b2.numoctaves
-//             );
-
-//             float height = h1 * blend.w1 + h2 * blend.w2;
-
-//             int index = i * chunk_size + j;
-
-//             positions[index].postion.x = global_x;
-//             positions[index].postion.y = height;
-//             positions[index].postion.z = global_z;
-//         }
+//     if (wh <= wm && wh <= wc && wh <= ww) {
+//         b1 = define_biome(H_WATER - 0.001f, t);
+//         b2 = define_biome(H_WATER + 0.001f, t);
+//         alpha = smoothstep(H_WATER - BLEND_RANGE, H_WATER + BLEND_RANGE, h);
+//     } else if (wm <= wc && wm <= ww) {
+//         b1 = define_biome(H_MOUNT - 0.001f, t);
+//         b2 = define_biome(H_MOUNT + 0.001f, t);
+//         alpha = smoothstep(H_MOUNT - BLEND_RANGE, H_MOUNT + BLEND_RANGE, h);
+//     } else if (wc <= ww) {
+//         b1 = define_biome(h, T_COLD - 0.001f);
+//         b2 = define_biome(h, T_COLD + 0.001f);
+//         alpha = smoothstep(T_COLD - BLEND_RANGE, T_COLD + BLEND_RANGE, t);
+//     } else {
+//         b1 = define_biome(h, T_WARM - 0.001f);
+//         b2 = define_biome(h, T_WARM + 0.001f);
+//         alpha = smoothstep(T_WARM - BLEND_RANGE, T_WARM + BLEND_RANGE, t);
 //     }
+
+//     return alpha;
 // }
+
+float TerrainGenerator::get_blend(float h, float t, BIOMES& b1, BIOMES& b2) {
+    b1 = define_biome(h, t);
+    b2 = b1;
+
+    float dist_h = std::min(std::abs(h - H_WATER), std::abs(h - H_MOUNT));
+    float dist_t = std::min(std::abs(t - T_COLD),  std::abs(t - T_WARM));
+
+    if (dist_h >= BLEND_RANGE && dist_t >= BLEND_RANGE)
+        return 0.0f;
+
+    if (dist_h < dist_t) {
+        float edge = (std::abs(h - H_WATER) < std::abs(h - H_MOUNT)) ? H_WATER : H_MOUNT;
+        float margin = BLEND_RANGE * (1.0f - dist_t / (dist_t + dist_h + 1e-6f));
+        b1 = define_biome(edge - 0.001f, t);
+        b2 = define_biome(edge + 0.001f, t);
+        return smoothstep(edge - BLEND_RANGE, edge + BLEND_RANGE, h);
+    } else {
+        float edge = (std::abs(t - T_COLD) < std::abs(t - T_WARM)) ? T_COLD : T_WARM;
+        b1 = define_biome(h, edge - 0.001f);
+        b2 = define_biome(h, edge + 0.001f);
+        return smoothstep(edge - BLEND_RANGE, edge + BLEND_RANGE, t);
+    }
+}
