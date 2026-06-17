@@ -2,6 +2,7 @@
 
 #include <unordered_set>
 #include <utility>
+#include <chrono>
 
 Mesh make_cube();
 
@@ -12,7 +13,12 @@ void Scene::add_chunk(std::pair<int, int> coords) {}
 TerrainScene::TerrainScene(AppPanel* ap) {
     this->ap = ap;
     this->minimap = ap->minimap;
-    //meshes.push_back(make_cube());
+
+    settings.world_seed = std::time(0);
+    std::srand(settings.world_seed);
+    std::cout<<"seed: "<<settings.world_seed<<"\n";
+
+    generator.seed = settings.world_seed;
 }
 
 void TerrainScene::update_scene() {
@@ -40,13 +46,13 @@ void TerrainScene::update_scene() {
         } 
     }
 
-    for (auto iterator = generator.active_chunks.begin(); iterator != generator.active_chunks.end();) {
-        if (new_chunks.find(iterator->first) == new_chunks.end()) {
-            iterator = generator.active_chunks.erase(iterator);
-        } else {
-            iterator++;
-        }
-    }
+    // for (auto iterator = generator.active_chunks.begin(); iterator != generator.active_chunks.end();) {
+    //     if (new_chunks.find(iterator->first) == new_chunks.end()) {
+    //         iterator = generator.active_chunks.erase(iterator);
+    //     } else {
+    //         iterator++;
+    //     }
+    // }
 }
 
 void TerrainScene::add_chunk(std::pair<int, int> coords) {    
@@ -60,61 +66,4 @@ void TerrainScene::add_chunk(std::pair<int, int> coords) {
     generator.active_chunks.emplace(coords, new_chunk_mesh);
 
     minimap->update_map(coords, new_chunk_mesh, settings.chunk_size, ap);
-}
-
-Mesh make_cube() {
-    std::vector<Vertex> vertices = {
-        // FRONT face
-        { { -0.5f, -0.5f,  0.5f }, {0.f, 0.f, 1.f}, {0.f, 0.f} },
-        { {  0.5f, -0.5f,  0.5f }, {0.f, 0.f, 1.f}, {1.f, 0.f} },
-        { {  0.5f,  0.5f,  0.5f }, {0.f, 0.f, 1.f}, {1.f, 1.f} },
-        { { -0.5f,  0.5f,  0.5f }, {0.f, 0.f, 1.f}, {0.f, 1.f} },
-
-        // BACK face
-        { { -0.5f, -0.5f, -0.5f }, {0.f, 0.f,-1.f}, {1.f, 0.f} },
-        { {  0.5f, -0.5f, -0.5f }, {0.f, 0.f,-1.f}, {0.f, 0.f} },
-        { {  0.5f,  0.5f, -0.5f }, {0.f, 0.f,-1.f}, {0.f, 1.f} },
-        { { -0.5f,  0.5f, -0.5f }, {0.f, 0.f,-1.f}, {1.f, 1.f} },
-
-        // LEFT face
-        { { -0.5f, -0.5f, -0.5f }, {-1.f, 0.f, 0.f}, {0.f, 0.f} },
-        { { -0.5f, -0.5f,  0.5f }, {-1.f, 0.f, 0.f}, {1.f, 0.f} },
-        { { -0.5f,  0.5f,  0.5f }, {-1.f, 0.f, 0.f}, {1.f, 1.f} },
-        { { -0.5f,  0.5f, -0.5f }, {-1.f, 0.f, 0.f}, {0.f, 1.f} },
-
-        // RIGHT face
-        { { 0.5f, -0.5f, -0.5f }, {1.f, 0.f, 0.f}, {1.f, 0.f} },
-        { { 0.5f, -0.5f,  0.5f }, {1.f, 0.f, 0.f}, {0.f, 0.f} },
-        { { 0.5f,  0.5f,  0.5f }, {1.f, 0.f, 0.f}, {0.f, 1.f} },
-        { { 0.5f,  0.5f, -0.5f }, {1.f, 0.f, 0.f}, {1.f, 1.f} },
-
-        // TOP face
-        { { -0.5f,  0.5f,  0.5f }, {0.f, 1.f, 0.f}, {0.f, 0.f} },
-        { {  0.5f,  0.5f,  0.5f }, {0.f, 1.f, 0.f}, {1.f, 0.f} },
-        { {  0.5f,  0.5f, -0.5f }, {0.f, 1.f, 0.f}, {1.f, 1.f} },
-        { { -0.5f,  0.5f, -0.5f }, {0.f, 1.f, 0.f}, {0.f, 1.f} },
-
-        // BOTTOM face
-        { { -0.5f, -0.5f,  0.5f }, {0.f,-1.f, 0.f}, {0.f, 1.f} },
-        { {  0.5f, -0.5f,  0.5f }, {0.f,-1.f, 0.f}, {1.f, 1.f} },
-        { {  0.5f, -0.5f, -0.5f }, {0.f,-1.f, 0.f}, {1.f, 0.f} },
-        { { -0.5f, -0.5f, -0.5f }, {0.f,-1.f, 0.f}, {0.f, 0.f} },
-    };
-
-    std::vector<unsigned int> indices = {
-        // FRONT
-        0, 1, 2,   2, 3, 0,
-        // BACK
-        4, 5, 6,   6, 7, 4,
-        // LEFT
-        8, 9,10,  10,11, 8,
-        // RIGHT
-       12,13,14,  14,15,12,
-        // TOP
-       16,17,18,  18,19,16,
-        // BOTTOM
-       20,21,22,  22,23,20
-    };
-
-    return Mesh(vertices, indices, {});
 }

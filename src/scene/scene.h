@@ -16,6 +16,8 @@ class AppPanel;
 class MiniMap;
 
 struct GeneratorSettings {
+    int world_seed;
+
     unsigned int chunk_size = 32;
     unsigned int altitude = 100;
     unsigned int numoctaves = 8;
@@ -25,7 +27,6 @@ struct GeneratorSettings {
 
     unsigned int temp_alt = 3;
     unsigned int height_alt = 10;
-
 
     const float TEMP_OFFSET = 100.0f; // offset bo korzystamy tylko z jednego szumu
     const float TEMP_SCALE = 512.0f;

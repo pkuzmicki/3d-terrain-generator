@@ -6,6 +6,7 @@
 #include "core/app_panel.h"
 
 #include <string>
+#include <chrono>
 
 static void HelpMarker(const char* desc)
 {
@@ -53,6 +54,18 @@ void GUI::draw_gui(AppPanel* ap) {
     coords.append(std::to_string((int)ap->renderer->get_cam()->chunk.y));
     ImGui::SameLine();
     ImGui::Text(coords.c_str());
+    ImGui::Text("World Seed: ");
+    ImGui::SameLine();
+    ImGui::Text(std::to_string(s->world_seed).c_str());
+    ImGui::SameLine();
+    if (ImGui::Button("reset")) {
+        s->world_seed = std::time(0);
+        std::srand(s->world_seed);
+        ap->s_manager->current_scene->get_generator()->active_chunks.clear();
+        minimap->get_minimap().clear();
+        ap->s_manager->current_scene->get_generator()->init_value_noise();
+    }
+
 
     coords.clear();
 

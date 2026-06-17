@@ -16,9 +16,9 @@ float x;
 float z;
 
 void TerrainGenerator::init_value_noise() {
-    seed = std::time(0);
-    std::srand(seed);
-    std::cout<<"seed: "<<seed<<"\n";
+    // seed = std::time(0);
+    // std::srand(seed);
+    // std::cout<<"seed: "<<seed<<"\n";
 
     x = (float)rand();
     z = (float)rand();
@@ -266,6 +266,5 @@ float TerrainGenerator::get_blend(float h, float t, BIOMES& b1, BIOMES& b2) {
         b2 = define_biome(h, T_WARM + border_offset);
         alpha = smoothstep(T_WARM - BLEND_RANGE, T_WARM + BLEND_RANGE, t);
     }
-
     return alpha;
 }
