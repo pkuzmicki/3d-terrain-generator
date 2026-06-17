@@ -27,9 +27,6 @@ void main() {
     float d = max(dot(n, light_dir), 0.0);
     vec3 diffuse = d * light_color;
 
-    //float a = smoothstep(0.0, 1.0, vAlpha);
-    //vec3 c = (ambient + diffuse) * mix(vColor1, vColor2, a);
-
     vec3 color = useLight ? vBiomeColor * (ambient + diffuse) : vBiomeColor;
     
     FragColor = vec4(color, 1.0);

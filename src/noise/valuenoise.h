@@ -17,13 +17,11 @@ private:
     int permute[SIZE];
 
     float noise(float x, float z) {
-        //const int dx = (int)x;
         const int dx = (int)std::floor(x);
         const float sx = s_curve(x - dx);
         const int i = permute[MASK & dx];
         const int j = permute[MASK & (dx + 1)];
 
-        //const int dz = (int)z;
         const int dz = (int)std::floor(z);
         const float sz = s_curve(z - dz);
 

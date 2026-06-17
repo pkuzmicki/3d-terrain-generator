@@ -139,7 +139,6 @@ Mesh TerrainGenerator::generate_value_noise_single_biome_mesh(unsigned int chunk
 
             BIOMES b = (biome_index < 10) ? (BIOMES)biome_index : BIOMES::PLAINS;
 
-            //float height = biome_values[b].altitude * get_point_height(global_x, global_z, biome_values[b].numoctaves, TERRAIN_SCALE, 0.0f);
             float height = get_point_height_for_biome(global_x, global_z, b);
 
             int index = i * chunk_size + j;
@@ -248,22 +247,23 @@ float TerrainGenerator::get_blend(float h, float t, BIOMES& b1, BIOMES& b2) {
     if (w >= 1.0f) return 0.0f;
 
     float alpha = 1.0f - w;
+    float border_offset = 0.001f;
 
     if (wh <= wm && wh <= wc && wh <= ww) {
-        b1 = define_biome(H_WATER - 0.001f, t);
-        b2 = define_biome(H_WATER + 0.001f, t);
+        b1 = define_biome(H_WATER - border_offset, t);
+        b2 = define_biome(H_WATER + border_offset, t);
         alpha = smoothstep(H_WATER - BLEND_RANGE, H_WATER + BLEND_RANGE, h);
     } else if (wm <= wc && wm <= ww) {
-        b1 = define_biome(H_MOUNT - 0.001f, t);
-        b2 = define_biome(H_MOUNT + 0.001f, t);
+        b1 = define_biome(H_MOUNT - border_offset, t);
+        b2 = define_biome(H_MOUNT + border_offset, t);
         alpha = smoothstep(H_MOUNT - BLEND_RANGE, H_MOUNT + BLEND_RANGE, h);
     } else if (wc <= ww) {
-        b1 = define_biome(h, T_COLD - 0.001f);
-        b2 = define_biome(h, T_COLD + 0.001f);
+        b1 = define_biome(h, T_COLD - border_offset);
+        b2 = define_biome(h, T_COLD + border_offset);
         alpha = smoothstep(T_COLD - BLEND_RANGE, T_COLD + BLEND_RANGE, t);
     } else {
-        b1 = define_biome(h, T_WARM - 0.001f);
-        b2 = define_biome(h, T_WARM + 0.001f);
+        b1 = define_biome(h, T_WARM - border_offset);
+        b2 = define_biome(h, T_WARM + border_offset);
         alpha = smoothstep(T_WARM - BLEND_RANGE, T_WARM + BLEND_RANGE, t);
     }
 

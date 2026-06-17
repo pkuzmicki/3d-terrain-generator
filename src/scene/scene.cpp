@@ -37,11 +37,6 @@ void TerrainScene::update_scene() {
             if (generator.active_chunks.find({i, j}) == generator.active_chunks.end()) {
                 add_chunk({i, j});
             }
-
-            // auto iterator = generator.active_chunks.find(std::make_pair(i, j));
-            // if (iterator == generator.active_chunks.end()) {
-            //     add_chunk(std::make_pair(i, j)); 
-            // }
         } 
     }
 
@@ -63,7 +58,6 @@ void TerrainScene::add_chunk(std::pair<int, int> coords) {
         generator.generate_value_noise_mesh(settings.chunk_size, world_x, world_z);
 
     generator.active_chunks.emplace(coords, new_chunk_mesh);
-    //meshes.push_back(new_chunk_mesh);
 
     minimap->update_map(coords, new_chunk_mesh, settings.chunk_size, ap);
 }

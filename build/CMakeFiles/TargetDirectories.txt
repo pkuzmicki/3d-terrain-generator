@@ -20,6 +20,7 @@ C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/external/glfw/sr
 C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/external/glfw/src/CMakeFiles/install.dir
 C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/external/glfw/src/CMakeFiles/install/local.dir
 C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/external/glfw/src/CMakeFiles/install/strip.dir
+C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/external/glfw/docs/CMakeFiles/docs.dir
 C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/external/glfw/docs/CMakeFiles/edit_cache.dir
 C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/external/glfw/docs/CMakeFiles/rebuild_cache.dir
 C:/Users/Boryss/Desktop/3d-generator/3d-terrain-generator/build/external/glfw/docs/CMakeFiles/list_install_components.dir

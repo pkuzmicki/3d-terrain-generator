@@ -115,17 +115,11 @@ struct TerrainGenerator {
     float TERRAIN_SCALE = 256.0f;
 
     Mesh* terrain_mesh;
-    //static ValueNoiseGeneration v;
     static ValueNoiseGeneration v_biomes[10];
 
     std::unordered_map<std::pair<int, int>, Mesh, PairHash> active_chunks;
 
     //unsigned int NUMOCTAVES = 8, unsigned int ALTITUDE = 50  //default vals
-    // Biome biome_values[9] = {
-    //     {50, 12}, {50, 12}, {-20, 7},
-    //     {50, 8}, {70, 14}, {-20, 7},
-    //     {50, 4}, {70, 20}, {-20, 7}
-    // };
 
     Biome biome_values[9] = {
       {55, 15}, {170, 25}, {-50, 10},
